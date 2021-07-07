@@ -1,0 +1,128 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[[ems-apm][type-link][flights * events:profile-a7483c449db94a449eb5f67681ee52b0]]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none",
+      "short_name": "Flight Record"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][uid:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none",
+      "short_name": "Event Record"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-0c04fad08fa54851b2d178fc5dc2e681]]]",
+      "aggregate": "none",
+      "short_name": "Baro Altitude (ft)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-66fb1b25aa8d4a41a62c64c55b15949e]]]",
+      "aggregate": "none",
+      "short_name": "Height AGL (ft)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-5a0671ed4047435ea5590f2fc17512f0]]]",
+      "aggregate": "none",
+      "short_name": "Height Above Takeoff (ft)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-d1d02d2accd3416ebc8fb34b81b919e2]]]",
+      "aggregate": "none",
+      "short_name": "Height Above Touchdown (ft)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-1e587974318a4865adcca84148722624]]]",
+      "aggregate": "none",
+      "short_name": "Airspeed (kcas)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-3536eeb82d964bd094ad7292bb94aa44]]]",
+      "aggregate": "none",
+      "short_name": "Ground Speed (knots)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-b39a9655519544e787c770d685e7f0f2]]]",
+      "aggregate": "none",
+      "short_name": "Mach"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-80cf714ab9e54f038b38202720db3dd3]]]",
+      "aggregate": "none",
+      "short_name": "Pitch (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-e624494880c34adb8da45185359919fb]]]",
+      "aggregate": "none",
+      "short_name": "Angle of Attack (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-14d08ea3e6654eea8acfc893b5070ec2]]]",
+      "aggregate": "none",
+      "short_name": "Roll (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-4cec0d2730ad40e28a1e3188b074a4ab]]]",
+      "aggregate": "none",
+      "short_name": "Vertical Speed (ft/min)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-c5b8f1cd38634f4d8a5fcc8d5dcc9bdb]]]",
+      "aggregate": "none",
+      "short_name": "Magnetic Heading (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-136abb3ad5d44e90904cf9e7fe7ebb7c]]]",
+      "aggregate": "none",
+      "short_name": "Track Angle (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-88fa977a3a6949309b45e9a8ffeedca2]]]",
+      "aggregate": "none",
+      "short_name": "Fuel Quantity (kg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-b308b56abd3c42658a350aee73e5dd25]]]",
+      "aggregate": "none",
+      "short_name": "Latitude (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-01502e8d3a91413eb73aef8349bfa775]]]",
+      "aggregate": "none",
+      "short_name": "Longitude (deg)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-bf622f074fde479bb1d98bd821950086]]]",
+      "aggregate": "none",
+      "short_name": "Great Circle from Liftoff (nm)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-a900df92474b4091a4253e5ee06f9ea1]]]",
+      "aggregate": "none",
+      "short_name": "Great Circle to Threshold (nm)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-1aa36b19ae4e4f568cf157f966673061]]]",
+      "aggregate": "none",
+      "short_name": "Ground Track from Liftoff (nm)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-d983d149b0474b6ba95c54c1b726d5d6]]]",
+      "aggregate": "none",
+      "short_name": "Gound Track to Threshold (nm)"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-af7f765c420f4c12a899eb337db9138a]]]",
+      "aggregate": "none",
+      "short_name": "GMT"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][msmt:profile-a7483c449db94a449eb5f67681ee52b0:msmt-7d9fe9d4154246df9e61a530761a018a]]]",
+      "aggregate": "none",
+      "short_name": "Gross Weight (kg)"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "format": "none"
+}

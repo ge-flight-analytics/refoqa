@@ -1,0 +1,25 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][msmt:profile-0243de4ce30a4a859a2d0a8b8f1510b6:msmt-996ed995df52479a94c07187a3886686]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][msmt:profile-0243de4ce30a4a859a2d0a8b8f1510b6:msmt-bd331d3c8aad453bbd167f7fb4dc1a4d]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][msmt:profile-0243de4ce30a4a859a2d0a8b8f1510b6:msmt-452b2619bb374ea99785c3a49cad8c52]]]",
+      "aggregate": "none"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "top": 10,
+  "format": "display"
+}

@@ -1,0 +1,32 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[[ems-apm][type-link][flights * events:profile-a7483c449db94a449eb5f67681ee52b0]]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][uid:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][event-type:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][event-falsepos:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][event-severity:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]][[ems-apm][event-field][event-status:profile-a7483c449db94a449eb5f67681ee52b0]]]",
+      "aggregate": "none"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "format": "display"
+}

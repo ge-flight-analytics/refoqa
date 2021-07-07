@@ -1,0 +1,149 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none",
+      "short_name": "Flight Record"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.masked-date]]]",
+      "aggregate": "none",
+      "short_name": "Flight Date"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.flight-num-int]]]",
+      "aggregate": "none",
+      "short_name": "Flight Number"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+      "aggregate": "none",
+      "short_name": "Fleet"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.aircraft]]]",
+      "aggregate": "none",
+      "short_name": "Tail Number"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.client-data-1]]]",
+      "aggregate": "none",
+      "short_name": "Flight Classification"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe]]]",
+      "aggregate": "none",
+      "short_name": "Airframe"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]",
+      "aggregate": "none",
+      "short_name": "Airframe Engine Type"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]",
+      "aggregate": "none",
+      "short_name": "Airframe Group"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[nav][type-link][airport-takeoff * foqa-flights]]][[nav][base-field][nav-airport.icao-code]]]",
+      "aggregate": "none",
+      "short_name": "Takeoff Airport ICAO Code"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[nav][type-link][airport-takeoff * foqa-flights]]][[nav][base-field][nav-airport.iata-code]]]",
+      "aggregate": "none",
+      "short_name": "Takeoff Airport IATA Code"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.runway-takeoff]]]",
+      "aggregate": "none",
+      "short_name": "Takeoff Runway ID"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[approach-detection-development--new-][base-field][detected-approach]]]",
+      "aggregate": "none",
+      "short_name": "Detected Approach"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[nav][type-link][airport-landing * foqa-flights]]][[nav][base-field][nav-airport.icao-code]]]",
+      "aggregate": "none",
+      "short_name": "Landing Airport ICAO Code"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[nav][type-link][airport-landing * foqa-flights]]][[nav][base-field][nav-airport.iata-code]]]",
+      "aggregate": "none",
+      "short_name": "Landing Airport ICAO Code"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.runway-landing]]]",
+      "aggregate": "none",
+      "short_name":"Landing Runway ID"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "format": "display",
+  "filter": {
+    "operator": "and",
+    "args": [
+      {
+        "type": "filter",
+        "value": {
+          "operator": "isTrue",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.exist-takeoff]]]"
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "isTrue",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.exist-landing]]]"
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "equal",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[data-quality][base-field][data-quality-(master)]]]"
+            },
+            {
+              "type": "constant",
+              "value": 2
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "equal",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[duplicate-detection][base-field][duplicate-detection--master-]]]"
+            },
+            {
+              "type": "constant",
+              "value": 1
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

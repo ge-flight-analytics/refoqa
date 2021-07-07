@@ -1,16 +1,28 @@
 Package: refoqa
-Title: What the Package Does (One Line, Title Case)
+Title: A Tidyverse Friendly Wrapper for the GE EMS EFOQA API YALL  
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Patrick",
+           family = "Stout",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+           email = "patrick.stout@ge.com")
+Description: An R wrapper for the GE EMS EFOQA API.  The primary expected workflow with this library is
+      to use the interactive gui in EMS online for field selection and use this wrapper to execute the query.
+      This wrapper will not clash with the common dplyr/tidyverse filter and select verbs.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports: 
+    dplyr,
+    httr,
+    janitor,
+    jsonlite,
+    purrr,
+    stringr,
+    tibble,
+    tidyr,
+    utils
+Depends: 
+    R (>= 2.10)

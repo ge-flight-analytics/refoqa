@@ -1,0 +1,125 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# refoqa
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+refoqa is a tidyverse friendly R wrapper around the EMS/eFOQA API.  
+
+The primary expected workflow for this wrapper is to use the 'Data Sources' Demo App / Developer Tool in EMS Online to navigate the EMS Tree and find all of the fields you want to use.  
+![Data Sources App Example](images/data_source_picker_example.PNG)  
+
+Then you will use the query json that tool generates to get exactly the fields you wnat to query.
+
+'re'foqa because it is a bit of a 're'-write of the other EMS package (rems)
+
+## Installation
+
+You can install the released version of refoqa from github with:
+
+``` r
+insall.packages("devtools")
+devtools::install_github("https://github.com/ge-flight-analytics/refoqa.git")
+```
+
+## Setup
+
+refoqa expects you to store your EMS/eFOQA credentials and preferred server inside if your .Renviron file.
+This means you don't have to ever pass your credentials to refoqa by hand!  Set it and forget it.
+Plus this is considered best practice in R so that your credentials stay out of your script, history and git.
+
+In Rstudio run:
+``` r
+usethis::edit_r_environ()
+```
+Add in these three lines and replace the example data with your efoqa user, password and server
+```
+# Example .Renviron file
+EFOQAUSER=example.user
+EFOQAPASSWORD=EXAMPLEPASSWORD
+EFOQASERVER=https://d2mo-api.us.efoqa.com/api
+
+```
+Restart your R session, and you can test for success by doing:
+``` r
+Sys.getenv("EFOQASERVER")
+```
+
+## Some Quick Results
+
+refoqa has a couple of pre-built queries to get you started.  To get some general information about the flights on your system try using standard_flight_query()
+
+```{r flight_query_example}
+library(refoqa)
+
+all_flights <- standard_flight_query()
+
+print(head(all_flights))
+
+```
+
+## Specifying the 'Data Source Id' (aka entity or database)
+
+The 'data_source_id' will need to be specified when you want to query for something other than FDW Flights (for example flight safety events).
+This is what controls what the 'rows' of your query are (flights, events, downloads, etc.)
+
+Let's do an events query now.  In the 'data source' app in EMS online, copy the appropriate 'Data Source id'
+![Data Sources Id Example](images/data_source_id_events_example.PNG)  
+
+```{r event_query_example}
+
+example_event_data <- standard_event_query(
+  event_data_source_id = "[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]")
+
+print(head(example_event_data))
+
+```
+
+
+## A Full Custom Query
+
+Now let's do a full custom query.  Run through the full 'Data Source' app selecting the data source and fields.  In the end you will get a json query in the 'JSON Editor' tab.
+
+![JSON Query Example](images/example_json_query.PNG)  
+
+Copy + Paste this json query to create a new json file in your R project.  Then pass it to 'database_query_from_json' along with the data source id and it will get executed.
+
+```{r include = FALSE}
+example_query_file <- system.file("extdata", "example_query.json", package = "refoqa")
+```
+
+```{r}
+custom_query_results <- database_query_from_json(data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                                 json_file = example_query_file)
+print(head(custom_query_results))
+```
+
+
+### Notes
+
+At least as of right now, the return type of each field is based on your query.  This means that in your json query, 
+```
+"format": "display" 
+```
+Will return all results as strings.  
+```
+"format": "none" 
+```
+Will return numbers.  
+
+We may change at some point.
+
