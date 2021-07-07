@@ -123,3 +123,21 @@ Will return numbers.
 
 We may change at some point.
 
+## Other Potentially Useful Functions
+
+You can get a glossary of an APM profile in either json/list or csv/dataframe form
+
+```{r, include=FALSE}
+library(dplyr, quietly = TRUE)
+```
+
+```{r}
+
+example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-f67681ee52b0", glossary_format = "csv" )
+
+example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
+print(head(example_glossary))
+```
+
+
+

@@ -72,7 +72,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: f5f9c699-1c6c-42e0-a216-31a8a3970f4e) deleted.
+#> Async query connection (query ID: 7f2ce941-1177-46f3-9091-b77629a38d83) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -114,7 +114,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: a7afaf3d-9ea9-48f6-8993-b99fd3586766) deleted.
+#> Async query connection (query ID: e9606942-9529-49b5-a475-6bd09ccd905e) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -124,7 +124,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 09e9876c-81a3-47f3-9bfd-1ab7be7b3281) deleted.
+#> Async query connection (query ID: 8b72171b-cb09-48c9-8af7-7e968814815d) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -203,3 +203,27 @@ Will return all results as strings.
 Will return numbers.
 
 We may change at some point.
+
+## Other Potentially Useful Functions
+
+You can get a glossary of an APM profile in either json/list or
+csv/dataframe form
+
+``` r
+example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-f67681ee52b0", glossary_format = "csv" )
+#> Querying for the profile glossary
+#> Done.
+#> No encoding supplied: defaulting to UTF-8.
+
+example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
+print(head(example_glossary))
+#> # A tibble: 6 x 4
+#>   name                              record_type item_id logical_id              
+#>   <chr>                             <chr>       <chr>   <chr>                   
+#> 1 "Later of \"35 ft AGL\" and \"Be~ T           0       396BC052-6882-4BF7-8703~
+#> 2 "35 ft AGL"                       T           1       5F9BCA37-16D9-4C6E-A1FD~
+#> 3 "Liftoff"                         T           2       D97A4B92-E3CE-46B2-817F~
+#> 4 "Begin Airborne Interval"         T           3       25D29FB0-3150-472B-98B6~
+#> 5 "First Known Phase of Flight"     T           4       AD668953-0184-49F9-8A10~
+#> 6 "Last Valid Data"                 T           5       3522561F-4087-4585-8627~
+```
