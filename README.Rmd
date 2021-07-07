@@ -27,12 +27,18 @@ Then you will use the query json that tool generates to get exactly the fields y
 
 're'foqa because it is a bit of a 're'-write of the other EMS package (rems)
 
+The benefits of this package over Rems are:  
+1.  The functions (like 'filter' or 'select' in Rems) will not clash with dplyr verbs.  
+2.  Credential management is easier.  
+3.  Works with the 'Data Sources' App for interactive and precise field selection.  
+
+
 ## Installation
 
 You can install the released version of refoqa from github with:
 
 ``` r
-insall.packages("devtools")
+install.packages("devtools")
 devtools::install_github("https://github.com/ge-flight-analytics/refoqa.git")
 ```
 

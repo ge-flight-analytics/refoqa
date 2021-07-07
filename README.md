@@ -19,12 +19,19 @@ fields you wnat to query.
 ‘re’foqa because it is a bit of a ’re’-write of the other EMS package
 (rems)
 
+The benefits of this package over Rems are:  
+1. The functions (like ‘filter’ or ‘select’ in Rems) will not clash with
+dplyr verbs.  
+2. Credential management is easier.  
+3. Works with the ‘Data Sources’ App for interactive and precise field
+selection.
+
 ## Installation
 
 You can install the released version of refoqa from github with:
 
 ``` r
-insall.packages("devtools")
+install.packages("devtools")
 devtools::install_github("https://github.com/ge-flight-analytics/refoqa.git")
 ```
 
@@ -72,24 +79,24 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 7f2ce941-1177-46f3-9091-b77629a38d83) deleted.
+#> Async query connection (query ID: ea540799-e386-4256-8b39-03115b8c38ab) deleted.
 #> Done.
 
 print(head(all_flights))
-#> # A tibble: 6 x 16
-#>   flight_record flight_date flight_number fleet   tail_number flight_classifica~
-#>   <chr>         <chr>       <chr>         <chr>   <chr>       <chr>             
-#> 1 3135409       Oct 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> 2 3135410       Oct 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> 3 3135417       Nov 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> 4 3135418       Nov 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> 5 3135421       Nov 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> 6 3135422       Nov 2012    0             Fleet ~ GE-704      Scheduled Flights 
-#> # ... with 10 more variables: airframe <chr>, airframe_engine_type <chr>,
-#> #   airframe_group <chr>, takeoff_airport_icao_code <chr>,
-#> #   takeoff_airport_iata_code <chr>, takeoff_runway_id <chr>,
-#> #   detected_approach <chr>, landing_airport_icao_code <chr>,
-#> #   landing_airport_iata_code <chr>, landing_runway_id <chr>
+#> # A tibble: 6 x 15
+#>   flight_record flight_date flight_number fleet    tail_number airframe
+#>   <chr>         <chr>       <chr>         <chr>    <chr>       <chr>   
+#> 1 3135409       Oct 2012    0             Fleet 14 GE-704      747-400 
+#> 2 3135410       Oct 2012    0             Fleet 14 GE-704      747-400 
+#> 3 3135417       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 4 3135418       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 5 3135421       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 6 3135422       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> # ... with 9 more variables: airframe_engine_type <chr>, airframe_group <chr>,
+#> #   takeoff_airport_icao_code <chr>, takeoff_airport_iata_code <chr>,
+#> #   takeoff_runway_id <chr>, detected_approach <chr>,
+#> #   landing_airport_icao_code <chr>, landing_airport_iata_code <chr>,
+#> #   landing_runway_id <chr>
 ```
 
 ## Specifying the ‘Data Source Id’ (aka entity or database)
@@ -114,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: e9606942-9529-49b5-a475-6bd09ccd905e) deleted.
+#> Async query connection (query ID: c4eaaf98-5fda-4187-9790-50b8335e8904) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -124,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 8b72171b-cb09-48c9-8af7-7e968814815d) deleted.
+#> Async query connection (query ID: 3761f498-a645-4543-adab-ca9cfd2c80b8) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
