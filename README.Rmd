@@ -117,6 +117,8 @@ print(head(custom_query_results))
 
 ### Notes
 
+#### Field Formats
+
 At least as of right now, the return type of each field is based on your query.  This means that in your json query, 
 ```
 "format": "display" 
@@ -128,6 +130,14 @@ Will return all results as strings.
 Will return numbers.  
 
 We may change at some point.
+
+#### 'Top 10'
+
+By default the Data Sources App will include a line limiting the results to just the first 10 records: 
+```
+  "top": 10
+```
+Delete this line to get all results.
 
 ## Other Potentially Useful Functions
 
