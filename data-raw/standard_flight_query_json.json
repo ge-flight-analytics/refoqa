@@ -26,11 +26,6 @@
       "short_name": "Tail Number"
     },
     {
-      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.client-data-1]]]",
-      "aggregate": "none",
-      "short_name": "Flight Classification"
-    },
-    {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe]]]",
       "aggregate": "none",
       "short_name": "Airframe"
