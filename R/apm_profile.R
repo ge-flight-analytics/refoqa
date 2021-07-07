@@ -1,4 +1,27 @@
 
+utils::globalVariables(c("record_type", "readable_record_type"))
+
+clean_csv_glossary <- function(raw_glossary){
+  glossary_with_clean_names <- janitor::clean_names(raw_glossary)
+
+  #clean up the record type
+  record_type_df <- tibble::tribble(
+    ~record_type, ~readable_record_type,
+    "T", "timepoint",
+    "I", "interval",
+    "M", "measurement",
+    "V", "event"
+  )
+  glossary_with_readable_record_type <- dplyr::left_join(glossary_with_clean_names, record_type_df)
+
+  glossary <- dplyr::mutate(glossary_with_readable_record_type,
+                            record_type = ifelse(!is.na(readable_record_type), readable_record_type, record_type))
+  glossary <- dplyr::select(glossary, -readable_record_type)
+
+  return(glossary)
+
+}
+
 
 #' APM Profile Glossary
 #'
@@ -28,7 +51,8 @@ apm_profile_glossary <- function( profile_id , efoqa_connection = connect_to_efo
 
   if(glossary_format == "csv"){
     glossary <- httr::content(r, skip = 2, col_names = TRUE, col_types = "ccccccccccccccc")
-    glossary <- janitor::clean_names(glossary)
+    glossary <- clean_csv_glossary(glossary)
+
   }else{
     glossary <- httr::content(r)
   }

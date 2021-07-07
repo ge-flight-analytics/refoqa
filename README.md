@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: ea540799-e386-4256-8b39-03115b8c38ab) deleted.
+#> Async query connection (query ID: f64edc3d-33af-4696-96b6-0a2d4dff455a) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: c4eaaf98-5fda-4187-9790-50b8335e8904) deleted.
+#> Async query connection (query ID: f1807a66-978a-4b23-a3c4-7bf235144156) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 3761f498-a645-4543-adab-ca9cfd2c80b8) deleted.
+#> Async query connection (query ID: 13ee5177-b3b1-46dd-b4e0-3128ddd41b86) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -198,6 +198,8 @@ print(head(custom_query_results))
 
 ### Notes
 
+#### Field Formats
+
 At least as of right now, the return type of each field is based on your
 query. This means that in your json query,
 
@@ -211,6 +213,15 @@ Will return numbers.
 
 We may change at some point.
 
+#### ‘Top 10’
+
+By default the Data Sources App will include a line limiting the results
+to just the first 10 records:
+
+      "top": 10
+
+Delete this line to get all results.
+
 ## Other Potentially Useful Functions
 
 You can get a glossary of an APM profile in either json/list or
@@ -221,16 +232,17 @@ example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-
 #> Querying for the profile glossary
 #> Done.
 #> No encoding supplied: defaulting to UTF-8.
+#> Joining, by = "record_type"
 
 example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
 print(head(example_glossary))
 #> # A tibble: 6 x 4
 #>   name                              record_type item_id logical_id              
 #>   <chr>                             <chr>       <chr>   <chr>                   
-#> 1 "Later of \"35 ft AGL\" and \"Be~ T           0       396BC052-6882-4BF7-8703~
-#> 2 "35 ft AGL"                       T           1       5F9BCA37-16D9-4C6E-A1FD~
-#> 3 "Liftoff"                         T           2       D97A4B92-E3CE-46B2-817F~
-#> 4 "Begin Airborne Interval"         T           3       25D29FB0-3150-472B-98B6~
-#> 5 "First Known Phase of Flight"     T           4       AD668953-0184-49F9-8A10~
-#> 6 "Last Valid Data"                 T           5       3522561F-4087-4585-8627~
+#> 1 "Later of \"35 ft AGL\" and \"Be~ timepoint   0       396BC052-6882-4BF7-8703~
+#> 2 "35 ft AGL"                       timepoint   1       5F9BCA37-16D9-4C6E-A1FD~
+#> 3 "Liftoff"                         timepoint   2       D97A4B92-E3CE-46B2-817F~
+#> 4 "Begin Airborne Interval"         timepoint   3       25D29FB0-3150-472B-98B6~
+#> 5 "First Known Phase of Flight"     timepoint   4       AD668953-0184-49F9-8A10~
+#> 6 "Last Valid Data"                 timepoint   5       3522561F-4087-4585-8627~
 ```
