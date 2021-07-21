@@ -59,3 +59,28 @@ apm_profile_glossary <- function( profile_id , efoqa_connection = connect_to_efo
 
   return(glossary)
 }
+
+#' list_all_apm_profiles
+#'
+#' @param efoqa_connection optional efoqa_connection list
+#'
+#' @return A list off all profiles on the system, including names, ids, tree locations, etc.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' all_profiles <- list_all_apm_profiles( )
+#' }
+list_all_apm_profiles <- function( efoqa_connection = connect_to_efoqa() ){
+
+  cat("Querying for the list of profiles\n")
+
+  r <- request_from_ems_api(efoqa_connection,
+                            rtype = "GET",
+                            uri_keys = c('profile', 'profiles'),
+                            uri_args = c(efoqa_connection$system_id))
+
+  profiles <- httr::content(r)
+
+  return(profiles)
+}
