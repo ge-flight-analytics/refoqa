@@ -141,6 +141,22 @@ Delete this line to get all results.
 
 ## Other Potentially Useful Functions
 
+### List APM Profiles  
+
+You can get a list of all available profiles on the system with the list_all_apm_profiles() function:
+
+```{r}
+
+all_profiles <- list_all_apm_profiles()
+
+print( all_profiles[[1]]$name )
+example_profile_id <- all_profiles[[1]]$id
+print( example_profile_id )
+```
+
+
+### APM Profile Glossary  
+
 You can get a glossary of an APM profile in either json/list or csv/dataframe form
 
 ```{r, include=FALSE}
@@ -149,7 +165,7 @@ library(dplyr, quietly = TRUE)
 
 ```{r}
 
-example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-f67681ee52b0", glossary_format = "csv" )
+example_glossary <- apm_profile_glossary( profile_id = example_profile_id, glossary_format = "csv" )
 
 example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
 print(head(example_glossary))

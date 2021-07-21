@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: f64edc3d-33af-4696-96b6-0a2d4dff455a) deleted.
+#> Async query connection (query ID: 0e3ec3d5-e637-44b3-ade2-a8406cac9851) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: f1807a66-978a-4b23-a3c4-7bf235144156) deleted.
+#> Async query connection (query ID: cd9abf81-e74e-4a0e-b080-b84007d2e540) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 13ee5177-b3b1-46dd-b4e0-3128ddd41b86) deleted.
+#> Async query connection (query ID: 7fc20abe-fa28-4039-80ff-ffaa3b65d4d1) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -224,11 +224,29 @@ Delete this line to get all results.
 
 ## Other Potentially Useful Functions
 
+### List APM Profiles
+
+You can get a list of all available profiles on the system with the
+list\_all\_apm\_profiles() function:
+
+``` r
+all_profiles <- list_all_apm_profiles()
+#> Querying for the list of profiles
+
+print( all_profiles[[1]]$name )
+#> [1] "Approach Detection Prereqs"
+example_profile_id <- all_profiles[[1]]$id
+print( example_profile_id )
+#> [1] "2becd333-b132-4880-ad2c-aa28f30e2cd9"
+```
+
+### APM Profile Glossary
+
 You can get a glossary of an APM profile in either json/list or
 csv/dataframe form
 
 ``` r
-example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-f67681ee52b0", glossary_format = "csv" )
+example_glossary <- apm_profile_glossary( profile_id = example_profile_id, glossary_format = "csv" )
 #> Querying for the profile glossary
 #> Done.
 #> No encoding supplied: defaulting to UTF-8.
@@ -237,12 +255,12 @@ example_glossary <- apm_profile_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-
 example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
 print(head(example_glossary))
 #> # A tibble: 6 x 4
-#>   name                              record_type item_id logical_id              
-#>   <chr>                             <chr>       <chr>   <chr>                   
-#> 1 "Later of \"35 ft AGL\" and \"Be~ timepoint   0       396BC052-6882-4BF7-8703~
-#> 2 "35 ft AGL"                       timepoint   1       5F9BCA37-16D9-4C6E-A1FD~
-#> 3 "Liftoff"                         timepoint   2       D97A4B92-E3CE-46B2-817F~
-#> 4 "Begin Airborne Interval"         timepoint   3       25D29FB0-3150-472B-98B6~
-#> 5 "First Known Phase of Flight"     timepoint   4       AD668953-0184-49F9-8A10~
-#> 6 "Last Valid Data"                 timepoint   5       3522561F-4087-4585-8627~
+#>   name                                record_type item_id logical_id            
+#>   <chr>                               <chr>       <chr>   <chr>                 
+#> 1 Beginning of File                   timepoint   0       383DAB63-BFF3-4B15-8F~
+#> 2 End of File                         timepoint   1       FA806D6C-DFA4-474D-B8~
+#> 3 Begin Airborne Interval             timepoint   2       25D29FB0-3150-472B-98~
+#> 4 First Known Phase of Flight         timepoint   3       AD668953-0184-49F9-8A~
+#> 5 Last Valid Data                     timepoint   4       3522561F-4087-4585-86~
+#> 6 Rest of File is more than 80% sync~ timepoint   5       36507F42-F9FB-4EF3-BE~
 ```
