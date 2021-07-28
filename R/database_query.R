@@ -57,7 +57,7 @@ async_database_query <- function(efoqa_connection, data_source_id, jsondata, n_r
 
   ctr <- 1
   df  <- tibble::tibble()
-  req_error <- F
+
   while(T) {
     cat(sprintf("=== Async call: %d === \n", ctr))
     tryCatch({
