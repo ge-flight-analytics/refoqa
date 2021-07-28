@@ -43,14 +43,27 @@ connect_to_efoqa <-
       stop(paste("Error:", httr::content(response)$error_description))
     }
 
-
-    #hardcoding the system_id to 1 for now, I think all systems are standardized to 1 at this point
     connection <- list(
       uri_root = efoqa_server_url,
       token = httr::content(response)$access_token,
       token_type = httr::content(response)$token_type,
       system_id = 1
     )
+
+    #query to get the actual server id
+    system_response <- request_from_ems_api(
+      conn = connection,
+      rtype = "GET",
+      uri_keys = c('ems_sys', 'list'))
+
+    system_list <- httr::content(system_response)
+
+    if(length(system_list) == 0){
+      cat("No systems are available to this user.  ems-systems route is returning empty")
+    }else{
+      target_system_id <- system_list[[1]]$id
+      connection$system_id <- target_system_id
+    }
 
     return(connection)
   }
