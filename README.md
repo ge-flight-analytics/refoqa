@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 0e3ec3d5-e637-44b3-ade2-a8406cac9851) deleted.
+#> Async query connection (query ID: 1e40d438-6685-48e2-81b4-dba45cef8b54) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: cd9abf81-e74e-4a0e-b080-b84007d2e540) deleted.
+#> Async query connection (query ID: 5d3f5619-fc08-4953-b661-1c819594677d) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,20 +131,20 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 7fc20abe-fa28-4039-80ff-ffaa3b65d4d1) deleted.
+#> Async query connection (query ID: 37daef7a-de8a-4b81-a92e-10b30db75698) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
 print(head(example_event_data))
 #> # A tibble: 6 x 28
-#>   flight_record event_record event_type       false_positive  severity  status  
-#>   <chr>         <chr>        <chr>            <chr>           <chr>     <chr>   
-#> 1 3135409       224779       Insufficient En~ Not a False Po~ Caution   FOQA: C~
-#> 2 3135409       224780       Insufficient En~ Not a False Po~ Caution   FOQA: C~
-#> 3 3135409       224782       Insufficient En~ Not a False Po~ Caution   Unknown 
-#> 4 3135409       224784       Insufficient En~ Not a False Po~ Caution   Unknown 
-#> 5 3135410       224790       Airspeed Exceed~ Not a False Po~ Informat~ Enginee~
-#> 6 3135410       224791       FDR/EMU Marker   Not a False Po~ Informat~ FOQA: C~
+#>   flight_record event_record event_type        false_positive  severity  status 
+#>   <chr>         <chr>        <chr>             <chr>           <chr>     <chr>  
+#> 1 3135409       224779       Insufficient Eng~ Not a False Po~ Caution   FOQA: ~
+#> 2 3135409       224780       Insufficient Eng~ Not a False Po~ Caution   FOQA: ~
+#> 3 3135409       224782       Insufficient Eng~ Not a False Po~ Caution   Downgr~
+#> 4 3135409       224784       Insufficient Eng~ Not a False Po~ Caution   Unknown
+#> 5 3135410       224790       Airspeed Exceeds~ Not a False Po~ Informat~ Unknown
+#> 6 3135410       224791       FDR/EMU Marker    Not a False Po~ Informat~ FOQA: ~
 #> # ... with 22 more variables: baro_altitude_at_start_of_event_ft <dbl>,
 #> #   height_agl_at_start_of_event_ft <dbl>,
 #> #   height_above_takeoff_best_estimate_at_start_of_event_ft <dbl>,
@@ -223,6 +223,22 @@ to just the first 10 records:
 Delete this line to get all results.
 
 ## Other Potentially Useful Functions
+
+### Analytics Query
+
+This is super rough right now and may change, but you can query the
+‘analytics’ API endpoint. See the documentation in the EMS Online REST
+API Explorer for details on the json form of the query.
+
+``` r
+example_parameter_results <- analytics_query_from_json(flight_id = 3135409, query_json_file = example_analytics_query_file )
+
+ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
+  geom_line()
+#> Warning: Removed 2 row(s) containing missing values (geom_path).
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
 ### List APM Profiles
 

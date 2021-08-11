@@ -106,6 +106,7 @@ Copy + Paste this json query to create a new json file in your R project.  Then 
 
 ```{r include = FALSE}
 example_query_file <- system.file("extdata", "example_query.json", package = "refoqa")
+example_analytics_query_file <- system.file("extdata", "analytic_query_example.json", package = "refoqa")
 ```
 
 ```{r}
@@ -140,6 +141,26 @@ By default the Data Sources App will include a line limiting the results to just
 Delete this line to get all results.
 
 ## Other Potentially Useful Functions
+
+### Analytics Query
+
+This is super rough right now and may change, but you can query the 'analytics' API endpoint.  See the documentation in the EMS Online REST API Explorer for details on the json form of the query.  
+
+```{r, include=FALSE}
+library(ggplot2, quietly = TRUE)
+```
+
+
+```{r}
+
+example_parameter_results <- analytics_query_from_json(flight_id = 3135409, query_json_file = example_analytics_query_file )
+
+ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
+  geom_line()
+
+```
+
+
 
 ### List APM Profiles  
 
