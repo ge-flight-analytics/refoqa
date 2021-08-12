@@ -160,6 +160,12 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 
 ```
 
+### Search Analytic Ids
+
+```{r}
+search_for_analytic( "Slat Operating Speed Maximum" )
+```
+
 
 
 ### List APM Profiles  

@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 1e40d438-6685-48e2-81b4-dba45cef8b54) deleted.
+#> Async query connection (query ID: 02511cc6-1ba0-4fee-9c8c-f581aa04f107) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 5d3f5619-fc08-4953-b661-1c819594677d) deleted.
+#> Async query connection (query ID: 0da195c8-6935-43d2-ab4d-477773d81cdd) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 37daef7a-de8a-4b81-a92e-10b30db75698) deleted.
+#> Async query connection (query ID: da74f294-ebd2-48d6-94e7-b4a80820fd2d) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -239,6 +239,24 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+### Search Analytic Ids
+
+``` r
+search_for_analytic( "Slat Operating Speed Maximum" )
+#> [[1]]
+#> [[1]]$id
+#> [1] "H4sIAAAAAAAEAG2QQQvCMAyF74L/Yey+tk5BGHMg6GEwL8rAa+2qC3TdbDvrz7c6qg7N4RF4+chL0j3XrbjRk+B5xaWBM3AV3BshdQKrsDamSzC21iI7R6264JiQGT7uigOreUMjkNpQyXg4MG9Cv2yNKmooa6VRlBnPLzBZ4nUFqFQ0zKaTIEiHFFzlVeZbjbaNLtoLMCpS/DUwAg4dZy4z27g9ASQSxCo0qnd58P/BUsK1d7dmZKg4emq0eArx4uuz9wefTrw5/l32ACiTbuVSAQAA"
+#> 
+#> [[1]]$name
+#> [1] "Slat Operating Speed Maximum (knots)"
+#> 
+#> [[1]]$description
+#> [1] "Maximum indicated airspeed permitted with the slats extended as specified in the airplane flight manual."
+#> 
+#> [[1]]$units
+#> [1] "knots"
+```
 
 ### List APM Profiles
 
