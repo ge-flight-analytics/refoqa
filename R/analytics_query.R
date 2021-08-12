@@ -1,4 +1,29 @@
 
+#' Search for Analytic IDs
+#'
+#' @param text_to_search Character string to search for in the list of 'analytics'
+#' @param efoqa_connection Optional connection list object for re-use and customization
+#'
+#' @return list containing all analytics found with the search text
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' search_for_analytic("Maximum Operating Altitude")
+#' }
+#'
+search_for_analytic <- function(text_to_search, efoqa_connection = connect_to_efoqa() ){
+
+  response <- request_from_ems_api(efoqa_connection, rtype = "GET",
+                                   uri_keys = c('analytic', 'search'),
+                                   uri_args = c(efoqa_connection$system_id),
+                                   body = list(text = text_to_search) )
+
+  content <- httr::content(response)
+
+  return(content)
+}
+
 get_analytic_details <- function(analytic_id, flight_id, efoqa_connection){
 
   analytic_description_query <- list(id = analytic_id)
