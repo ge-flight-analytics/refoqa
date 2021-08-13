@@ -67,7 +67,25 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
   return(values_df)
 }
 
-analytics_query <- function( query_list, flight_id, efoqa_connection = connect_to_efoqa() ){
+#' Query the FDW Parameters / Constants / 'Analytics' with an R list defining the query.
+#' This form of the query expects you to pass in the json query in the form of an R list.
+#'
+#' @param flight_id The numeric flight record id to target
+#' @param query_list list format of the query to perform.  See API documentation for details.
+#' @param efoqa_connection An optional efoqa connection list object for re-use or customization.
+#'
+#' @return A list object with the results of the analytics query.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' query_list_example <- list(
+#'    select = list( analyticID = analytic_id_1, analyticID = analytic_id_2 )
+#'    )
+#'
+#' analytics_query(3135409, query_list_example)
+#' }
+analytics_query <- function( flight_id, query_list, efoqa_connection = connect_to_efoqa() ){
 
   response <- request_from_ems_api(efoqa_connection, rtype = "POST",
                        uri_keys = c('analytic', 'query'),
@@ -101,7 +119,7 @@ analytics_query_from_json <- function(flight_id, query_json_file, efoqa_connecti
 
   json_data <- jsonlite::read_json(query_json_file)
 
-  analytics_results <- analytics_query(json_data, flight_id, efoqa_connection)
+  analytics_results <- analytics_query(flight_id, json_data, efoqa_connection)
 
   return(analytics_results)
 }
