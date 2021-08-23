@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 02511cc6-1ba0-4fee-9c8c-f581aa04f107) deleted.
+#> Async query connection (query ID: 265fb233-2591-4b46-8bbd-b4d5b14245b6) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 0da195c8-6935-43d2-ab4d-477773d81cdd) deleted.
+#> Async query connection (query ID: 3fe3e3c6-07e8-434b-ba1f-3800b5dee85a) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: da74f294-ebd2-48d6-94e7-b4a80820fd2d) deleted.
+#> Async query connection (query ID: a9dbe6f0-67bf-420c-9e52-b352d94d1004) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -151,21 +151,7 @@ print(head(example_event_data))
 #> #   height_above_touchdown_best_estimate_at_start_of_event_ft <dbl>,
 #> #   airspeed_calibrated_at_start_of_event_knots <dbl>,
 #> #   ground_speed_at_start_of_event_knots <dbl>,
-#> #   mach_number_at_start_of_event <dbl>,
-#> #   pitch_attitude_captains_or_only_at_start_of_event_deg <dbl>,
-#> #   angle_of_attack_best_available_at_start_of_event_deg <dbl>,
-#> #   roll_attitude_captains_or_only_at_start_of_event_deg <dbl>,
-#> #   vertical_speed_at_start_of_event_ft_min <dbl>,
-#> #   heading_magnetic_at_start_of_event_deg <dbl>,
-#> #   track_angle_at_start_of_event_deg <dbl>,
-#> #   fuel_quantity_kg_at_start_of_event_kg <dbl>,
-#> #   latitude_at_start_of_event_deg <dbl>,
-#> #   longitude_at_start_of_event_deg <dbl>,
-#> #   great_circle_distance_from_liftoff_to_start_of_event_nm <dbl>,
-#> #   great_circle_distance_from_start_of_event_to_threshold_nm <dbl>,
-#> #   ground_track_distance_from_liftoff_to_start_of_event_nm <dbl>,
-#> #   ground_track_distance_from_start_of_event_to_threshold_nm <dbl>,
-#> #   gmt_at_start_of_event_hrs <dbl>, gross_weight_kg_at_start_of_event_kg <dbl>
+#> #   mach_number_at_start_of_event <dbl>, ...
 ```
 
 ## A Full Custom Query
@@ -297,4 +283,23 @@ print(head(example_glossary))
 #> 4 First Known Phase of Flight         timepoint   3       AD668953-0184-49F9-8A~
 #> 5 Last Valid Data                     timepoint   4       3522561F-4087-4585-86~
 #> 6 Rest of File is more than 80% sync~ timepoint   5       36507F42-F9FB-4EF3-BE~
+```
+
+You can also get a list of the events in a profile
+
+``` r
+example_events_df <- apm_events_glossary( profile_id = example_profile_id )
+#> Querying for the profile glossary
+#> Done.
+
+print( head( example_events_df ) )
+#> # A tibble: 6 x 3
+#>      id name                                                 comments           
+#>   <int> <chr>                                                <chr>              
+#> 1     0 Low-Level Windshear                                  "This event indica~
+#> 2     1 Risk of Ground Collision due to Low-Level Wind Shear "This event indica~
+#> 3     2 EGT Limit Exceedance (Left Outboard Engine)          "This event indica~
+#> 4     3 EGT Limit Exceedance (Left Inboard Engine)           "This event indica~
+#> 5     4 EGT Limit Exceedance (Center Engine)                 "This event indica~
+#> 6     5 EGT Limit Exceedance (Right Inboard Engine)          "This event indica~
 ```

@@ -198,5 +198,19 @@ example_glossary <- select(example_glossary, name, record_type, item_id, logical
 print(head(example_glossary))
 ```
 
+You can also get a list of the events in a profile
+
+```{r, include=FALSE}
+example_profile_id <- "a7483c449db94a449eb5f67681ee52b0"
+```
+
+
+```{r}
+
+example_events_df <- apm_events_glossary( profile_id = example_profile_id )
+
+print( head( example_events_df ) )
+```
+
 
 
