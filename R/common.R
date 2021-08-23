@@ -43,7 +43,8 @@ uris <- list(
   ),
   profile = list(
     profiles = '/v2/ems-systems/%s/profiles',
-    glossary = '/v2/ems-systems/%s/profiles/%s/glossary'
+    glossary = '/v2/ems-systems/%s/profiles/%s/glossary',
+    events = '/v2/ems-systems/%s/profiles/%s/events'
   ),
   sys = list(
     auth = '/token'

@@ -60,6 +60,36 @@ apm_profile_glossary <- function( profile_id , efoqa_connection = connect_to_efo
   return(glossary)
 }
 
+#' APM Events Glossary
+#'
+#' @param profile_id guid string for the profile
+#' @param efoqa_connection optional efoqa_connection list
+#'
+#' @return dataframe with an entry for each event type in the profile
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' apm_events_glossary( profile_id = "a7483c44-9db9-4a44-9eb5-f67681ee52b0")
+#' }
+#'
+apm_events_glossary <- function( profile_id , efoqa_connection = connect_to_efoqa()){
+
+  cat("Querying for the profile glossary\n")
+
+  r <- request_from_ems_api(efoqa_connection,
+                            rtype = "GET",
+                            uri_keys = c('profile', 'events'),
+                            uri_args = c(efoqa_connection$system_id, profile_id))
+  cat("Done.\n")
+
+  event_list <- httr::content(r)
+
+  event_df <- dplyr::bind_rows(event_list)
+
+  return( event_df )
+}
+
 #' list_all_apm_profiles
 #'
 #' @param efoqa_connection optional efoqa_connection list
