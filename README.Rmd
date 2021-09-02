@@ -212,5 +212,14 @@ example_events_df <- apm_events_glossary( profile_id = example_profile_id )
 print( head( example_events_df ) )
 ```
 
+### More Built In Queries
+
+A built-in query for a summary of the airframe-engine types on the system
+```{r}
+
+airframe_summary <- standard_airframe_query()
+
+print( head( airframe_summary ) )
+```
 
 
