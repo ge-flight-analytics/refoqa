@@ -6,6 +6,13 @@ global_event_discretes_json <- jsonlite::read_json("./data-raw/global_event_disc
 
 global_event_measurements_json <- jsonlite::read_json("./data-raw/global_event_msmts.json")
 
+standard_airframe_query_json <- jsonlite::read_json("./data-raw/standard_airframe_query.json")
 
 #internal data
-usethis::use_data(standard_flight_query_json, global_event_discretes_json, global_event_measurements_json, overwrite = TRUE, internal = TRUE)
+usethis::use_data(
+  standard_flight_query_json,
+  global_event_discretes_json,
+  global_event_measurements_json,
+  standard_airframe_query_json,
+  overwrite = TRUE,
+  internal = TRUE)

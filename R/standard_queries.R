@@ -83,3 +83,23 @@ standard_event_query <-
     }
 
   }
+
+
+#' Standard Airframe Query
+#'
+#' @param efoqa_connection Optional connection string for re-used or advanced configuration
+#'
+#' @return A dataframe with one entry per airframe-engine on the system giving the number of flights, and most recent dates and flight records
+#' @export
+#'
+standard_airframe_query <- function( efoqa_connection = connect_to_efoqa() ){
+
+
+  airframe_query_results <- simple_database_query(efoqa_connection,
+                                                  data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                                  jsondata = standard_airframe_query_json)
+
+  return(airframe_query_results)
+}
+
+
