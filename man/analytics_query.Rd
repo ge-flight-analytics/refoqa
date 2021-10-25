@@ -24,7 +24,7 @@ This form of the query expects you to pass in the json query in the form of an R
 \examples{
 \dontrun{
 query_list_example <- list(
-   select = list( analyticID = analytic_id_1, analyticID = analytic_id_2 )
+   select = list( list( analyticID = analytic_id_1), list( analyticID = analytic_id_2 ) )
    )
 
 analytics_query(3135409, query_list_example)

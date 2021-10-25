@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 6032347f-eeb9-4cae-bf28-5cc9185e5b41) deleted.
+#> Async query connection (query ID: 229a99cd-e247-4f70-8306-06ee0d852ce8) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 64e1c479-2c8a-46f5-a21f-405c8b690b29) deleted.
+#> Async query connection (query ID: 6fd7756f-4043-4c01-a123-8498e1a59460) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 84b73bb6-7e04-43a2-982b-c9f42a5848a7) deleted.
+#> Async query connection (query ID: 0e83c63d-862d-45e5-9506-6b48d7940c83) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -174,12 +174,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 x 4
 #>   flight_record p35_maximum_pressu~ p35_bank_angle_magnit~ p35_pitch_attitude_m~
 #>   <chr>         <chr>               <chr>                  <chr>                
-#> 1 3135451       38054 ft            30.5859 degrees        15.6445 degrees      
-#> 2 3135452       39016 ft            34.8047 degrees        17.4023 degrees      
-#> 3 3137642       36003 ft            26.7186 degrees        14.7655 degrees      
-#> 4 3137643       35022 ft            30.9373 degrees        14.5897 degrees      
-#> 5 3137646       36024 ft            27.4217 degrees        14.0624 degrees      
-#> 6 3137647       36008 ft            30.2342 degrees        14.7655 degrees
+#> 1 3135409       39049 ft            26.7188 degrees        14.5898 degrees      
+#> 2 3135410       38035 ft            28.125 degrees         13.7109 degrees      
+#> 3 3135417       38016 ft            26.3672 degrees        14.5898 degrees      
+#> 4 3135418       39021 ft            31.2891 degrees        17.0508 degrees      
+#> 5 3135421       38027 ft            28.4766 degrees        14.9414 degrees      
+#> 6 3135422       35018 ft            24.2578 degrees        14.5898 degrees
 ```
 
 ### Notes
