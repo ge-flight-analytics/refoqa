@@ -1,0 +1,25 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.aircraft]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.masked-date]]]",
+      "aggregate": "none"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "top": 1,
+  "format": "display"
+}

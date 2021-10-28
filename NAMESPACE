@@ -2,6 +2,7 @@
 
 export(analytics_query)
 export(analytics_query_from_json)
+export(analytics_query_with_unspecified_flight)
 export(apm_events_glossary)
 export(apm_profile_glossary)
 export(connect_to_efoqa)
