@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 229a99cd-e247-4f70-8306-06ee0d852ce8) deleted.
+#> Async query connection (query ID: 74f6d1ca-d1f7-4e8e-ba57-3e62e2e294fd) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 6fd7756f-4043-4c01-a123-8498e1a59460) deleted.
+#> Async query connection (query ID: 8cff8564-87dc-4393-9fc2-c63352f16a7f) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 0e83c63d-862d-45e5-9506-6b48d7940c83) deleted.
+#> Async query connection (query ID: 5a445d27-3800-48c3-aca7-52985aed354e) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -174,12 +174,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 x 4
 #>   flight_record p35_maximum_pressu~ p35_bank_angle_magnit~ p35_pitch_attitude_m~
 #>   <chr>         <chr>               <chr>                  <chr>                
-#> 1 3135409       39049 ft            26.7188 degrees        14.5898 degrees      
-#> 2 3135410       38035 ft            28.125 degrees         13.7109 degrees      
-#> 3 3135417       38016 ft            26.3672 degrees        14.5898 degrees      
-#> 4 3135418       39021 ft            31.2891 degrees        17.0508 degrees      
-#> 5 3135421       38027 ft            28.4766 degrees        14.9414 degrees      
-#> 6 3135422       35018 ft            24.2578 degrees        14.5898 degrees
+#> 1 3138628       37054 ft            25.4883 degrees        15.293 degrees       
+#> 2 3138629       36010 ft            30.2344 degrees        19.5117 degrees      
+#> 3 3138640       37034 ft            30.5859 degrees        16.875 degrees       
+#> 4 3138650       34013 ft            30.5859 degrees        17.4023 degrees      
+#> 5 3138653       34018 ft            29.1797 degrees        16.1719 degrees      
+#> 6 3138657       38025 ft            30.7617 degrees        16.6992 degrees
 ```
 
 ### Notes
@@ -225,6 +225,24 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+
+There are options to do this directly from an R list (rather than json),
+and an option to do this without specifying a flight record if you want
+to ( refoqa will select a random flight for youu). These are mostly
+useful for system maintenance type uses, but it is here if you want it.
+
+``` r
+query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+
+example_parameter_results <- analytics_query_with_unspecified_flight( query_list = query_as_r_list )
+#> Sending a regular query to EMS ...Done.
+
+ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
+  geom_line()
+#> Warning: Removed 2 row(s) containing missing values (geom_path).
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
 
 ### Search Analytic Ids
 

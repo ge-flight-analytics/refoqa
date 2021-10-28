@@ -119,6 +119,7 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
   return(values_df)
 }
 
+
 #' Query the FDW Parameters / Constants / 'Analytics' with an R list defining the query.
 #' This form of the query expects you to pass in the json query in the form of an R list.
 #'
@@ -149,6 +150,34 @@ analytics_query <- function( flight_id, query_list, efoqa_connection = connect_t
   content_df <- convert_analytics_query_to_dataframe( content, flight_id, efoqa_connection )
 
   return(content_df)
+}
+
+#' Analytics Query with Unspecified Flight
+#'
+#' @param query_list An R list representing the query (equivalent to what you would get by doing jsonlite::read_json() on the json query )
+#' @param efoqa_connection An optional efoqa connection list object for re-use or customization.
+#'
+#' @return A list object with the results of the analytics query by selecting a random flight to run the query on.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' query_list_example <- list(
+#'    select = list( list( analyticID = analytic_id_1), list( analyticID = analytic_id_2 ) )
+#'    )
+#'
+#' analytics_query_with_unspecified_flight( query_list_example )
+#' }
+analytics_query_with_unspecified_flight <- function( query_list, efoqa_connection = connect_to_efoqa() ){
+
+  sampled_flight <- single_sample_flight_query( efoqa_connection )
+  sampled_flight_id <- as.integer(sampled_flight$flight_record)
+
+  query_results <- analytics_query( flight_id = sampled_flight_id,
+                                    query_list = query_list,
+                                    efoqa_connection = efoqa_connection )
+  return( query_results )
+
 }
 
 

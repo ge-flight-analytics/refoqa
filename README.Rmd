@@ -160,6 +160,21 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 
 ```
 
+There are options to do this directly from an R list (rather than json), and an option to do this without specifying a flight record if you want to ( refoqa will select a random flight for youu).
+These are mostly  useful for system maintenance type uses, but it is here if you want it.
+
+```{r}
+
+query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+
+example_parameter_results <- analytics_query_with_unspecified_flight( query_list = query_as_r_list )
+
+ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
+  geom_line()
+
+```
+
+
 ### Search Analytic Ids
 
 ```{r}
