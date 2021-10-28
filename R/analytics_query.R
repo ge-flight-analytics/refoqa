@@ -171,6 +171,12 @@ analytics_query <- function( flight_id, query_list, efoqa_connection = connect_t
 analytics_query_with_unspecified_flight <- function( query_list, efoqa_connection = connect_to_efoqa() ){
 
   sampled_flight <- single_sample_flight_query( efoqa_connection )
+
+  if(nrow(sampled_flight) == 0){
+    cat("No Flights Found")
+    return()
+  }
+
   sampled_flight_id <- as.integer(sampled_flight$flight_record)
 
   query_results <- analytics_query( flight_id = sampled_flight_id,
