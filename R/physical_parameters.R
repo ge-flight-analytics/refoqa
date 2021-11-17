@@ -1,4 +1,5 @@
 
+utils::globalVariables(c("flight_id", "description"))
 
 #' Get a list of all physical parameters for a given flight record.
 #'
