@@ -54,6 +54,12 @@ get_all_physical_parameters <- function( efoqa_connection = connect_to_efoqa() )
   #get dataframe of all pdcs on system with an example flight from each
   all_pdcs <- standard_pdc_query( efoqa_connection )
 
+  #if there are no database returns for actual flights, return nothing
+  if(nrow(all_pdcs) == 0){
+    return()
+  }
+
+
   #iterate through the example flight records for reach PDC and get a list of physical parameters
   all_physical_parameters <- purrr::map_dfr( all_pdcs$max_flight_record, get_physical_parameters_for_flight, efoqa_connection )
 
