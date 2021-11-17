@@ -237,4 +237,17 @@ airframe_summary <- standard_airframe_query()
 print( head( airframe_summary ) )
 ```
 
+Get a dataframe of all physical parameters for a particular flight record
+```{r}
+physical_parameters_for_flight <- get_physical_parameters_for_flight(3135409)
 
+print( head( select( physical_parameters_for_flight, name, units, uid) ) )
+```
+
+Get a dataframe of all physical parameters for all PDCs/LFLs on the system
+
+```{r}
+all_physical_parameters <- get_all_physical_parameters()
+
+print( head( select( all_physical_parameters, name, flight_physical_data_configuration_id ) ) )
+```

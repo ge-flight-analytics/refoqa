@@ -10,6 +10,8 @@ standard_airframe_query_json <- jsonlite::read_json("./data-raw/standard_airfram
 
 single_sample_flight_query_json <- jsonlite::read_json("./data-raw/single_sample_flight_query.json")
 
+pdc_query_json <- jsonlite::read_json("./data-raw/pdc_query.json")
+
 #internal data
 usethis::use_data(
   standard_flight_query_json,
@@ -17,5 +19,6 @@ usethis::use_data(
   global_event_measurements_json,
   standard_airframe_query_json,
   single_sample_flight_query_json,
+  pdc_query_json,
   overwrite = TRUE,
   internal = TRUE)

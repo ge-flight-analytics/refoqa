@@ -1,0 +1,40 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[ems-aux][type-link][flights * fleets]][[ems-aux][type-link][fleets * pdcs]]][[ems-aux][base-field][pdc.uid]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[ems-aux][type-link][flights * fleets]][[ems-aux][type-link][fleets * pdcs]]][[ems-aux][base-field][pdc.globalId]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "max"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]",
+      "aggregate": "none"
+    }
+  ],
+  "groupBy": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[ems-aux][type-link][flights * fleets]][[ems-aux][type-link][fleets * pdcs]]][[ems-aux][base-field][pdc.uid]]]"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[[ems-aux][type-link][flights * fleets]][[ems-aux][type-link][fleets * pdcs]]][[ems-aux][base-field][pdc.globalId]]]"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]"
+    }
+  ],
+  "orderBy": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]",
+      "order": "desc",
+      "aggregate": "none"
+    }
+  ],
+  "distinct": true,
+  "format": "display"
+}

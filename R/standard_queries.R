@@ -113,3 +113,13 @@ single_sample_flight_query <- function( efoqa_connection = connect_to_efoqa() ){
 }
 
 
+standard_pdc_query <- function( efoqa_connection = connect_to_efoqa() ){
+
+  pdc_query_results <- simple_database_query(efoqa_connection,
+                                             data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                             jsondata = pdc_query_json)
+
+  return(pdc_query_results)
+
+}
+
