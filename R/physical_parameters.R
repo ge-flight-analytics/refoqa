@@ -55,7 +55,7 @@ get_all_physical_parameters <- function( efoqa_connection = connect_to_efoqa() )
   all_pdcs <- standard_pdc_query( efoqa_connection )
 
   #iterate through the example flight records for reach PDC and get a list of physical parameters
-  all_physical_parameters <- purrr::map_dfr( all_pdcs$max_flight_record, get_physical_parameters_for_flight, )
+  all_physical_parameters <- purrr::map_dfr( all_pdcs$max_flight_record, get_physical_parameters_for_flight, efoqa_connection )
 
   #join back in the original pdc details
   physical_param_details <- dplyr::left_join( all_physical_parameters, all_pdcs, by=c("flight_id"="max_flight_record") )
