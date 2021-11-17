@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 74f6d1ca-d1f7-4e8e-ba57-3e62e2e294fd) deleted.
+#> Async query connection (query ID: 5e9b8c30-8c14-45d8-8b06-b31d26f78d8c) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 8cff8564-87dc-4393-9fc2-c63352f16a7f) deleted.
+#> Async query connection (query ID: 03e92955-3782-46b2-bd68-02f50634fbb3) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 5a445d27-3800-48c3-aca7-52985aed354e) deleted.
+#> Async query connection (query ID: 18f8639b-bb29-4810-9a22-181d45b098de) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -174,12 +174,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 x 4
 #>   flight_record p35_maximum_pressu~ p35_bank_angle_magnit~ p35_pitch_attitude_m~
 #>   <chr>         <chr>               <chr>                  <chr>                
-#> 1 3138628       37054 ft            25.4883 degrees        15.293 degrees       
-#> 2 3138629       36010 ft            30.2344 degrees        19.5117 degrees      
-#> 3 3138640       37034 ft            30.5859 degrees        16.875 degrees       
-#> 4 3138650       34013 ft            30.5859 degrees        17.4023 degrees      
-#> 5 3138653       34018 ft            29.1797 degrees        16.1719 degrees      
-#> 6 3138657       38025 ft            30.7617 degrees        16.6992 degrees
+#> 1 3135409       39049 ft            26.7188 degrees        14.5898 degrees      
+#> 2 3135410       38035 ft            28.125 degrees         13.7109 degrees      
+#> 3 3135417       38016 ft            26.3672 degrees        14.5898 degrees      
+#> 4 3135418       39021 ft            31.2891 degrees        17.0508 degrees      
+#> 5 3135421       38027 ft            28.4766 degrees        14.9414 degrees      
+#> 6 3135422       35018 ft            24.2578 degrees        14.5898 degrees
 ```
 
 ### Notes
@@ -341,4 +341,41 @@ print( head( airframe_summary ) )
 #> 4 5499576           Dec 2015        757-200 PW2000                 7726 757-200 
 #> 5 5575245           Dec 2015        777-200ER Trent 8~             1069 777-200~
 #> 6 5427509           Dec 2015        777-200LR GE90-11~             1631 777-200~
+```
+
+Get a dataframe of all physical parameters for a particular flight
+record
+
+``` r
+physical_parameters_for_flight <- get_physical_parameters_for_flight(3135409)
+
+print( head( select( physical_parameters_for_flight, name, units, uid) ) )
+#> # A tibble: 6 x 3
+#>   name                   units uid     
+#>   <chr>                  <chr> <chr>   
+#> 1 A/P ALT HOLD MODE OPER ""    APALTHLD
+#> 2 A/P ALTITUDE MODE OPER ""    APALTMD 
+#> 3 A/P CAUTION            ""    APCAUT  
+#> 4 A/P CMD C ENGA         ""    APCMDCEN
+#> 5 A/P CMD L ENGA         ""    APCMDLEN
+#> 6 A/P CMD R ENGA         ""    APCMDREN
+```
+
+Get a dataframe of all physical parameters for all PDCs/LFLs on the
+system
+
+``` r
+all_physical_parameters <- get_all_physical_parameters()
+#> Sending a regular query to EMS ...Done.
+
+print( head( select( all_physical_parameters, name, flight_physical_data_configuration_id ) ) )
+#> # A tibble: 6 x 2
+#>   name                 flight_physical_data_configuration_id
+#>   <chr>                <chr>                                
+#> 1 A/C NUMBER           Fleet 23                             
+#> 2 A/C TYPE             Fleet 23                             
+#> 3 A/P CAUTION C FCC    Fleet 23                             
+#> 4 A/P CAUTION L FCC    Fleet 23                             
+#> 5 A/P CAUTION R FCC    Fleet 23                             
+#> 6 A/P CMD C ENGA C FCC Fleet 23
 ```
