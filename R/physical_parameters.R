@@ -24,8 +24,13 @@ get_physical_parameters_for_flight <- function(flight_id, efoqa_connection = con
 
   content <- httr::content(response)
 
-  #clean up the results.
+  #change results into a dataframe
   physical_parameters <- purrr::map_dfr(content$analytics, function(x) return(x))
+  #skip if we don't get any parameters returned
+  if(nrow(physical_parameters) == 0){
+    return()
+  }
+  #clean up results
   physical_parameters <- janitor::clean_names(physical_parameters)
   physical_parameters <- dplyr::mutate(physical_parameters,
                                        uid = stringr::str_match(description, "Uid: (.*)\\sName:")[,2])

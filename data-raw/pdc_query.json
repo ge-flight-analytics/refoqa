@@ -36,5 +36,26 @@
     }
   ],
   "distinct": true,
-  "format": "display"
+  "format": "display",
+  "filter": {
+    "operator": "and",
+    "args": [
+      {
+        "type": "filter",
+        "value": {
+          "operator": "notEqual",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]"
+            },
+            {
+              "type": "constant",
+              "value": 0
+            }
+          ]
+        }
+      }
+    ]
+  }
 }
