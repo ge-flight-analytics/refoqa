@@ -237,6 +237,14 @@ airframe_summary <- standard_airframe_query()
 print( head( airframe_summary ) )
 ```
 
+Get a dataframe of all airframes available with their local ids ( needed to query by airframe )
+```{r}
+
+airframe_id_table <- get_airframe_id_table()
+
+print( head( airframe_id_table ) )
+```
+
 Get a dataframe of all physical parameters for a particular flight record
 ```{r}
 physical_parameters_for_flight <- get_physical_parameters_for_flight(3135409)

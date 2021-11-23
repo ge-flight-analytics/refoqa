@@ -1,4 +1,16 @@
 
+get_database_field_details <- function( efoqa_connection, data_source_id, field_id){
+
+  r <- request_from_ems_api(efoqa_connection, rtype = "GET",
+                            uri_keys = c('database', 'field'),
+                            uri_args = c(efoqa_connection$system_id, data_source_id, field_id))
+
+  field_details <- httr::content(r)
+
+  return(field_details)
+
+}
+
 create_data_frame_from_row <- function(row_of_data, field_names){
 
   null_removed_row_of_data <- purrr::map(row_of_data, function(x) ifelse(is.null(x), NA, x))
