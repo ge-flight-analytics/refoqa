@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 5e9b8c30-8c14-45d8-8b06-b31d26f78d8c) deleted.
+#> Async query connection (query ID: edd8d71e-4198-4a83-9a58-cbdac7a5af24) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 03e92955-3782-46b2-bd68-02f50634fbb3) deleted.
+#> Async query connection (query ID: 4319ad29-34f5-4e94-8b58-10dab40d6102) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 18f8639b-bb29-4810-9a22-181d45b098de) deleted.
+#> Async query connection (query ID: 5e8a9b2a-4431-4953-a796-68079f389bff) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -174,12 +174,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 x 4
 #>   flight_record p35_maximum_pressu~ p35_bank_angle_magnit~ p35_pitch_attitude_m~
 #>   <chr>         <chr>               <chr>                  <chr>                
-#> 1 3135409       39049 ft            26.7188 degrees        14.5898 degrees      
-#> 2 3135410       38035 ft            28.125 degrees         13.7109 degrees      
-#> 3 3135417       38016 ft            26.3672 degrees        14.5898 degrees      
-#> 4 3135418       39021 ft            31.2891 degrees        17.0508 degrees      
-#> 5 3135421       38027 ft            28.4766 degrees        14.9414 degrees      
-#> 6 3135422       35018 ft            24.2578 degrees        14.5898 degrees
+#> 1 3135451       38054 ft            30.5859 degrees        15.6445 degrees      
+#> 2 3135452       39016 ft            34.8047 degrees        17.4023 degrees      
+#> 3 3137642       36003 ft            26.7186 degrees        14.7655 degrees      
+#> 4 3137643       35022 ft            30.9373 degrees        14.5897 degrees      
+#> 5 3137646       36024 ft            27.4217 degrees        14.0624 degrees      
+#> 6 3137647       36008 ft            30.2342 degrees        14.7655 degrees
 ```
 
 ### Notes
@@ -341,6 +341,24 @@ print( head( airframe_summary ) )
 #> 4 5499576           Dec 2015        757-200 PW2000                 7726 757-200 
 #> 5 5575245           Dec 2015        777-200ER Trent 8~             1069 777-200~
 #> 6 5427509           Dec 2015        777-200LR GE90-11~             1631 777-200~
+```
+
+Get a dataframe of all airframes available with their local ids ( needed
+to query by airframe )
+
+``` r
+airframe_id_table <- get_airframe_id_table()
+
+print( head( airframe_id_table ) )
+#> # A tibble: 6 x 2
+#>   local_id airframe_string[,1]
+#>      <dbl> <chr>              
+#> 1       83 717-200            
+#> 2      185 727-200            
+#> 3      167 737 (BBJ)          
+#> 4      169 737 (BBJ2)         
+#> 5      159 737 (BBJ3)         
+#> 6      151 737 MAX 10
 ```
 
 Get a dataframe of all physical parameters for a particular flight
