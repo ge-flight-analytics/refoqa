@@ -1,5 +1,20 @@
 
-get_database_field_details <- function( efoqa_connection, data_source_id, field_id){
+#' Get details on any EMS database schema field
+#'
+#' @param efoqa_connection optional existing efoqa connection for re-use or advanced use
+#' @param data_source_id The schema name of the data source id that has the target field
+#' @param field_id The schema name of the target field to get details on
+#'
+#' @return An R list with details on the target field
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_database_field_details(
+#' data_source_id = "[ems-core][entity-type][foqa-flights]",
+#' field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]")
+#' }
+get_database_field_details <- function( efoqa_connection = connect_to_efoqa(), data_source_id, field_id){
 
   r <- request_from_ems_api(efoqa_connection, rtype = "GET",
                             uri_keys = c('database', 'field'),

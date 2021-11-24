@@ -237,13 +237,27 @@ airframe_summary <- standard_airframe_query()
 print( head( airframe_summary ) )
 ```
 
-Get a dataframe of all airframes available with their local ids ( needed to query by airframe )
+Get a dataframe of all airframes or airframe-engines available with their local ids ( needed to query by airframe )
 ```{r}
 
 airframe_id_table <- get_airframe_id_table()
 
 print( head( airframe_id_table ) )
+
+airframe_engine_id_table <- get_airframe_engine_id_table()
+
+print( head( airframe_engine_id_table ) )
+
 ```
+
+Get details on any EMS schema field
+```{r}
+field_details <- get_database_field_details(
+  data_source_id = "[ems-core][entity-type][foqa-flights]",
+  field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]")
+print(names(field_details))
+```
+
 
 Get a dataframe of all physical parameters for a particular flight record
 ```{r}

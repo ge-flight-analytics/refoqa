@@ -142,8 +142,32 @@ get_airframe_id_table <- function( efoqa_connection = connect_to_efoqa() ){
   temp_discrete_table <- t(dplyr::as_tibble(field_detail_list$discreteValues))
 
   airframe_discrete_table <- dplyr::tibble( local_id = as.numeric(rownames( temp_discrete_table )),
-                                     airframe_string = temp_discrete_table)
+                                     airframe_string = as.character(temp_discrete_table))
 
   return(airframe_discrete_table)
 }
 
+#' Get a table of airframe-engines with local ids for this system
+#'
+#' @param efoqa_connection Optional connection string for re-used or advanced configuration
+#'
+#' @return A dataframe containing a list of all airframe-engines and their local ID.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' get_airframe_engine_id_table()
+#' }
+get_airframe_engine_id_table <- function( efoqa_connection = connect_to_efoqa() ){
+
+  field_detail_list <- get_database_field_details( efoqa_connection,
+                                                   data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                                   field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]")
+
+  temp_discrete_table <- t(dplyr::as_tibble(field_detail_list$discreteValues))
+
+  airframe_discrete_table <- dplyr::tibble( local_id = as.numeric(rownames( temp_discrete_table )),
+                                            airframe_engine_string = as.character(temp_discrete_table))
+
+  return(airframe_discrete_table)
+}

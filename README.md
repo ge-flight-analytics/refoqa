@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: edd8d71e-4198-4a83-9a58-cbdac7a5af24) deleted.
+#> Async query connection (query ID: a3f2e0cc-eb8a-4f11-b445-ff18db1f2711) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 4319ad29-34f5-4e94-8b58-10dab40d6102) deleted.
+#> Async query connection (query ID: 2558fb28-939a-4624-aeea-1487aded8c62) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 5e8a9b2a-4431-4953-a796-68079f389bff) deleted.
+#> Async query connection (query ID: 3befd466-8c91-435b-8d6a-0a42725f72f3) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -343,22 +343,46 @@ print( head( airframe_summary ) )
 #> 6 5427509           Dec 2015        777-200LR GE90-11~             1631 777-200~
 ```
 
-Get a dataframe of all airframes available with their local ids ( needed
-to query by airframe )
+Get a dataframe of all airframes or airframe-engines available with
+their local ids ( needed to query by airframe )
 
 ``` r
 airframe_id_table <- get_airframe_id_table()
 
 print( head( airframe_id_table ) )
 #> # A tibble: 6 x 2
-#>   local_id airframe_string[,1]
-#>      <dbl> <chr>              
-#> 1       83 717-200            
-#> 2      185 727-200            
-#> 3      167 737 (BBJ)          
-#> 4      169 737 (BBJ2)         
-#> 5      159 737 (BBJ3)         
+#>   local_id airframe_string
+#>      <dbl> <chr>          
+#> 1       83 717-200        
+#> 2      185 727-200        
+#> 3      167 737 (BBJ)      
+#> 4      169 737 (BBJ2)     
+#> 5      159 737 (BBJ3)     
 #> 6      151 737 MAX 10
+
+airframe_engine_id_table <- get_airframe_engine_id_table()
+
+print( head( airframe_engine_id_table ) )
+#> # A tibble: 6 x 2
+#>   local_id airframe_engine_string
+#>      <dbl> <chr>                 
+#> 1      124 717-200 BR715         
+#> 2      243 727-200 JT8D          
+#> 3      212 737 (BBJ) CFM56-7     
+#> 4      224 737 (BBJ2) CFM56-7    
+#> 5      222 737 (BBJ3) CFM56-7    
+#> 6      210 737 MAX 10 LEAP-1B
+```
+
+Get details on any EMS schema field
+
+``` r
+field_details <- get_database_field_details(
+  data_source_id = "[ems-core][entity-type][foqa-flights]",
+  field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]")
+print(names(field_details))
+#> [1] "discreteValues" "id"             "type"           "name"          
+#> [5] "path"
 ```
 
 Get a dataframe of all physical parameters for a particular flight
