@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: a3f2e0cc-eb8a-4f11-b445-ff18db1f2711) deleted.
+#> Async query connection (query ID: 94a22c84-127a-4b23-9e46-a1d550871ab6) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 2558fb28-939a-4624-aeea-1487aded8c62) deleted.
+#> Async query connection (query ID: 1a16815c-3805-44d5-956e-0f9c7faf8591) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 3befd466-8c91-435b-8d6a-0a42725f72f3) deleted.
+#> Async query connection (query ID: a45afa58-0ea2-464d-b4df-fe2258d0f267) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -171,15 +171,17 @@ custom_query_results <- database_query_from_json(data_source_id = "[ems-core][en
                                                  json_file = example_query_file)
 #> Sending a regular query to EMS ...Done.
 print(head(custom_query_results))
-#> # A tibble: 6 x 4
-#>   flight_record p35_maximum_pressu~ p35_bank_angle_magnit~ p35_pitch_attitude_m~
-#>   <chr>         <chr>               <chr>                  <chr>                
-#> 1 3135451       38054 ft            30.5859 degrees        15.6445 degrees      
-#> 2 3135452       39016 ft            34.8047 degrees        17.4023 degrees      
-#> 3 3137642       36003 ft            26.7186 degrees        14.7655 degrees      
-#> 4 3137643       35022 ft            30.9373 degrees        14.5897 degrees      
-#> 5 3137646       36024 ft            27.4217 degrees        14.0624 degrees      
-#> 6 3137647       36008 ft            30.2342 degrees        14.7655 degrees
+#> # A tibble: 6 x 6
+#>   flight_record fleet    airframe p35_maximum_pressur~ p35_bank_angle_magnitude~
+#>   <chr>         <chr>    <chr>    <chr>                <chr>                    
+#> 1 3193189       Fleet 03 A320-200 36072 ft             24.2576 degrees          
+#> 2 3203702       Fleet 03 A320-200 34048 ft             25.3123 degrees          
+#> 3 3208826       Fleet 03 A320-200 38036 ft             26.0154 degrees          
+#> 4 3208827       Fleet 03 A320-200 35064 ft             27.7732 degrees          
+#> 5 3211863       Fleet 03 A320-200 34052 ft             25.3123 degrees          
+#> 6 3211868       Fleet 03 A320-200 35044 ft             28.4764 degrees          
+#> # ... with 1 more variable:
+#> #   p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```
 
 ### Notes
@@ -208,9 +210,7 @@ to just the first 10 records:
 
 Delete this line to get all results.
 
-## Other Potentially Useful Functions
-
-### Analytics Query
+## Full Flight Data ‘Analytics’ Queries
 
 This is super rough right now and may change, but you can query the
 ‘analytics’ API endpoint. See the documentation in the EMS Online REST
@@ -261,6 +261,118 @@ search_for_analytic( "Slat Operating Speed Maximum" )
 #> [[1]]$units
 #> [1] "knots"
 ```
+
+## Helpers for Discretes or Dimensions
+
+The ‘data sources’ app and json query are not great for handling
+discretes or dimensions. Here are a few helper functions to help out.
+
+### Get Possible Dimension/Discrete States
+
+One way to work around this is to get the EMS ids for the possible
+discretes. Then you can type these in by hand into your json query.
+There are some build in id\_table queries to get these lists.
+
+``` r
+airframe_id_table <- get_airframe_id_table()
+print( head( airframe_id_table ) )
+#> # A tibble: 6 x 2
+#>   local_id discrete_string
+#>      <dbl> <chr>          
+#> 1       83 717-200        
+#> 2      185 727-200        
+#> 3      167 737 (BBJ)      
+#> 4      169 737 (BBJ2)     
+#> 5      159 737 (BBJ3)     
+#> 6      151 737 MAX 10
+
+airframe_engine_id_table <- get_airframe_engine_id_table()
+print( head( airframe_engine_id_table ) )
+#> # A tibble: 6 x 2
+#>   local_id discrete_string   
+#>      <dbl> <chr>             
+#> 1      124 717-200 BR715     
+#> 2      243 727-200 JT8D      
+#> 3      212 737 (BBJ) CFM56-7 
+#> 4      224 737 (BBJ2) CFM56-7
+#> 5      222 737 (BBJ3) CFM56-7
+#> 6      210 737 MAX 10 LEAP-1B
+```
+
+Or you can get a table of possible discrete states for any field you
+want.
+
+``` r
+fleet_table <- get_dimension_table(data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                   field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]")
+print(head(fleet_table))
+#> # A tibble: 6 x 2
+#>   local_id discrete_string
+#>      <dbl> <chr>          
+#> 1        3 Fleet 03       
+#> 2        4 Fleet 04       
+#> 3        5 Fleet 05       
+#> 4        6 Fleet 06       
+#> 5        7 Fleet 07       
+#> 6        8 Fleet 08
+```
+
+### Append Dimension/Discrete Filter by String
+
+There is a helper to tack on a filter for a specific string version of a
+particular field to an input query.
+
+``` r
+example_query_list <- jsonlite::read_json(example_query_file)
+
+flight_query_for_fleet_03 <- filter_dimension_by_string(
+  data_source_id = "[ems-core][entity-type][foqa-flights]",
+  query_list = example_query_list,
+  field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+  dimension_string = "Fleet 03")
+
+fleet_03_flights <- database_query_from_list( data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              query_list = flight_query_for_fleet_03)
+#> Sending a regular query to EMS ...Done.
+print(head(fleet_03_flights))
+#> # A tibble: 6 x 6
+#>   flight_record fleet    airframe p35_maximum_pressur~ p35_bank_angle_magnitude~
+#>   <chr>         <chr>    <chr>    <chr>                <chr>                    
+#> 1 3193189       Fleet 03 A320-200 36072 ft             24.2576 degrees          
+#> 2 3203702       Fleet 03 A320-200 34048 ft             25.3123 degrees          
+#> 3 3208826       Fleet 03 A320-200 38036 ft             26.0154 degrees          
+#> 4 3208827       Fleet 03 A320-200 35064 ft             27.7732 degrees          
+#> 5 3211863       Fleet 03 A320-200 34052 ft             25.3123 degrees          
+#> 6 3211868       Fleet 03 A320-200 35044 ft             28.4764 degrees          
+#> # ... with 1 more variable:
+#> #   p35_pitch_attitude_maximum_while_airborne_degrees <chr>
+```
+
+And some helpers for specific dimensions
+
+``` r
+flight_query_for_737 <- filter_airframe_engine_by_string(
+  query_list = example_query_list,
+  target_airframe_engine_string = "737-800 CFM56-7")
+
+flights_737 <- database_query_from_list( data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              query_list = flight_query_for_737)
+#> Sending a regular query to EMS ...Done.
+print(head(flights_737))
+#> # A tibble: 6 x 6
+#>   flight_record fleet    airframe p35_maximum_pressur~ p35_bank_angle_magnitude~
+#>   <chr>         <chr>    <chr>    <chr>                <chr>                    
+#> 1 3137698       Fleet 19 737-800  35968 ft             30.4102 degrees          
+#> 2 3137733       Fleet 19 737-800  30018 ft             29.8828 degrees          
+#> 3 3137877       Fleet 19 737-800  37015 ft             31.1133 degrees          
+#> 4 3137878       Fleet 19 737-800  33970 ft             25.6641 degrees          
+#> 5 3137881       Fleet 19 737-800  36018 ft             33.9258 degrees          
+#> 6 3137884       Fleet 19 737-800  37013 ft             25.6641 degrees          
+#> # ... with 1 more variable:
+#> #   p35_pitch_attitude_maximum_while_airborne_degrees <chr>
+```
+
+## Other Potentially Useful Functions
 
 ### List APM Profiles
 
@@ -343,36 +455,7 @@ print( head( airframe_summary ) )
 #> 6 5427509           Dec 2015        777-200LR GE90-11~             1631 777-200~
 ```
 
-Get a dataframe of all airframes or airframe-engines available with
-their local ids ( needed to query by airframe )
-
-``` r
-airframe_id_table <- get_airframe_id_table()
-
-print( head( airframe_id_table ) )
-#> # A tibble: 6 x 2
-#>   local_id airframe_string
-#>      <dbl> <chr>          
-#> 1       83 717-200        
-#> 2      185 727-200        
-#> 3      167 737 (BBJ)      
-#> 4      169 737 (BBJ2)     
-#> 5      159 737 (BBJ3)     
-#> 6      151 737 MAX 10
-
-airframe_engine_id_table <- get_airframe_engine_id_table()
-
-print( head( airframe_engine_id_table ) )
-#> # A tibble: 6 x 2
-#>   local_id airframe_engine_string
-#>      <dbl> <chr>                 
-#> 1      124 717-200 BR715         
-#> 2      243 727-200 JT8D          
-#> 3      212 737 (BBJ) CFM56-7     
-#> 4      224 737 (BBJ2) CFM56-7    
-#> 5      222 737 (BBJ3) CFM56-7    
-#> 6      210 737 MAX 10 LEAP-1B
-```
+### Misc
 
 Get details on any EMS schema field
 

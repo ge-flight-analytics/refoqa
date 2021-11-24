@@ -5,6 +5,14 @@
       "aggregate": "none"
     },
     {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe]]]",
+      "aggregate": "none"
+    },
+    {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][msmt:profile-0243de4ce30a4a859a2d0a8b8f1510b6:msmt-996ed995df52479a94c07187a3886686]]]",
       "aggregate": "none"
     },

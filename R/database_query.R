@@ -1,30 +1,5 @@
 
-#' Get details on any EMS database schema field
-#'
-#' @param efoqa_connection optional existing efoqa connection for re-use or advanced use
-#' @param data_source_id The schema name of the data source id that has the target field
-#' @param field_id The schema name of the target field to get details on
-#'
-#' @return An R list with details on the target field
-#' @export
-#'
-#' @examples
-#' \dontrun{
-#' get_database_field_details(
-#' data_source_id = "[ems-core][entity-type][foqa-flights]",
-#' field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]")
-#' }
-get_database_field_details <- function( efoqa_connection = connect_to_efoqa(), data_source_id, field_id){
-
-  r <- request_from_ems_api(efoqa_connection, rtype = "GET",
-                            uri_keys = c('database', 'field'),
-                            uri_args = c(efoqa_connection$system_id, data_source_id, field_id))
-
-  field_details <- httr::content(r)
-
-  return(field_details)
-
-}
+utils::globalVariables(c("discrete_string"))
 
 create_data_frame_from_row <- function(row_of_data, field_names){
 
@@ -135,6 +110,35 @@ async_database_query <- function(efoqa_connection, data_source_id, jsondata, n_r
   return(df)
 }
 
+
+
+#' Execute Database Query from R List
+#'
+#' @param data_source_id String for EMS data source / database ID.  For example FDW Flights = "[ems-core][entity-type][foqa-flights]"
+#' @param query_list  R list object containing the EMS API query to execute
+#' @param efoqa_connection Optional if you want to re-use an existing connection to the API.
+#'
+#' @return The results of the EMS database query as a dataframe.  Note that no type conversions are performed.  Result types will depend on the 'format' flag in the query.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' database_query_from_json("[ems-core][entity-type][foqa-flights]",
+#'   query_list = standard_flight_query_json)
+#' }
+#'
+database_query_from_list <- function( data_source_id, query_list, efoqa_connection = connect_to_efoqa() ){
+
+  #run the simple non async query only if there is a 'top n' limiter
+  if( !is.null( query_list$top ) && ( query_list$top < 25000 ) ){
+    query_results <- simple_database_query(efoqa_connection, data_source_id, query_list)
+  }else{
+    query_results <- async_database_query(efoqa_connection, data_source_id, query_list)
+  }
+
+  return(query_results)
+}
+
 #' database_query_from_json
 #' @description
 #' Executes an EMS database query for the supplied json query file.
@@ -155,14 +159,9 @@ async_database_query <- function(efoqa_connection, data_source_id, jsondata, n_r
 #'
 database_query_from_json <- function(data_source_id, json_file, efoqa_connection = connect_to_efoqa()){
 
-  json_data <- jsonlite::read_json(json_file)
+  query_list <- jsonlite::read_json(json_file)
 
-  #run the simple non async query only if there is a 'top n' limiter
-  if( !is.null( json_data$top ) && ( json_data$top < 25000 ) ){
-    query_results <- simple_database_query(efoqa_connection, data_source_id, json_data)
-  }else{
-    query_results <- async_database_query(efoqa_connection, data_source_id, json_data)
-  }
+  query_results <- database_query_from_list( data_source_id, query_list, efoqa_connection )
 
   return(query_results)
 }

@@ -140,9 +140,8 @@ By default the Data Sources App will include a line limiting the results to just
 ```
 Delete this line to get all results.
 
-## Other Potentially Useful Functions
 
-### Analytics Query
+## Full Flight Data 'Analytics' Queries
 
 This is super rough right now and may change, but you can query the 'analytics' API endpoint.  See the documentation in the EMS Online REST API Explorer for details on the json form of the query.  
 
@@ -181,7 +180,60 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 search_for_analytic( "Slat Operating Speed Maximum" )
 ```
 
+## Helpers for Discretes or Dimensions
+The 'data sources' app and json query are not great for handling discretes or dimensions.  Here are a few helper functions to help out.
 
+### Get Possible Dimension/Discrete States  
+One way to work around this is to get the EMS ids for the possible discretes.  Then you can type these in by hand into your json query.
+There are some build in id_table queries to get these lists.
+```{r}
+
+airframe_id_table <- get_airframe_id_table()
+print( head( airframe_id_table ) )
+
+airframe_engine_id_table <- get_airframe_engine_id_table()
+print( head( airframe_engine_id_table ) )
+
+```
+
+Or you can get a table of possible discrete states for any field you want.
+```{r}
+fleet_table <- get_dimension_table(data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                   field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]")
+print(head(fleet_table))
+```
+
+### Append Dimension/Discrete Filter by String
+There is a helper to tack on a filter for a specific string version of a particular field to an input query.
+```{r}
+example_query_list <- jsonlite::read_json(example_query_file)
+
+flight_query_for_fleet_03 <- filter_dimension_by_string(
+  data_source_id = "[ems-core][entity-type][foqa-flights]",
+  query_list = example_query_list,
+  field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+  dimension_string = "Fleet 03")
+
+fleet_03_flights <- database_query_from_list( data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              query_list = flight_query_for_fleet_03)
+print(head(fleet_03_flights))
+
+```
+And some helpers for specific dimensions
+```{r}
+flight_query_for_737 <- filter_airframe_engine_by_string(
+  query_list = example_query_list,
+  target_airframe_engine_string = "737-800 CFM56-7")
+
+flights_737 <- database_query_from_list( data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              query_list = flight_query_for_737)
+print(head(flights_737))
+
+```
+
+
+
+## Other Potentially Useful Functions
 
 ### List APM Profiles  
 
@@ -237,18 +289,7 @@ airframe_summary <- standard_airframe_query()
 print( head( airframe_summary ) )
 ```
 
-Get a dataframe of all airframes or airframe-engines available with their local ids ( needed to query by airframe )
-```{r}
-
-airframe_id_table <- get_airframe_id_table()
-
-print( head( airframe_id_table ) )
-
-airframe_engine_id_table <- get_airframe_engine_id_table()
-
-print( head( airframe_engine_id_table ) )
-
-```
+### Misc
 
 Get details on any EMS schema field
 ```{r}
