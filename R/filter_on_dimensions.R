@@ -132,7 +132,7 @@ filter_dimension_by_string <- function( efoqa_connection = connect_to_efoqa(), d
 
   #if an existing filter exists, tack this new filter on as an 'and' with the existing filter
   if("filter" %in% names(query_list)){
-    existing_filter <- query_list$filter
+    existing_filter <- list( type = "filter", value = query_list$filter )
     query_list$filter <- list(operator = "and",
                               args = list(
                                 existing_filter,
