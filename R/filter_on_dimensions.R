@@ -154,6 +154,8 @@ filter_dimension_by_string <- function( efoqa_connection = connect_to_efoqa(), d
 #' @param efoqa_connection optional existing efoqa connection for re-use or advanced use
 #' @param query_list The target query to add the airframe engine filter to
 #' @param target_airframe_engine_string The airframe engine to filter on
+#' @param data_source_id Optional input for when the data type is not FDW flights.
+#' @param field_id Optional input for the airframe engine field ID for when the data type is not FDW flights.
 #'
 #' @return The original target query with an additional filter for the target airframe-engine
 #' @export
@@ -166,12 +168,15 @@ filter_dimension_by_string <- function( efoqa_connection = connect_to_efoqa(), d
 #' target_airframe_engine_string = "717-200")
 #' }
 filter_airframe_engine_by_string <- function( efoqa_connection = connect_to_efoqa(),
-                                              query_list, target_airframe_engine_string ){
+                                              query_list,
+                                              target_airframe_engine_string,
+                                              data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]"){
 
   new_query_list <- filter_dimension_by_string( efoqa_connection,
-                                                data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                                data_source_id,
                                                 query_list,
-                                                field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]",
+                                                field_id,
                                                 dimension_string = target_airframe_engine_string)
 
   return(new_query_list)
