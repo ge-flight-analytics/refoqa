@@ -103,30 +103,21 @@ request_from_ems_api <-
         response <- httr::GET(uri, query = body, httr::add_headers(.headers = headers), encode = encoding)
       }, error = function(err) {
         print(err)
-        cat(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
-        cat("Trying to Reconnect EMS...")
-        conn = connect_to_efoqa()
-        response <- httr::GET(uri, query = body, httr::add_headers(.headers = headers), encode = encoding)
+        stop(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
       })
     } else if (rtype=="POST") {
       tryCatch({
         response <- httr::POST(uri, body = body, httr::add_headers(.headers = headers), encode = encoding)
       }, error = function(err) {
         print(err)
-        cat(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
-        cat("Trying to Reconnect EMS...\n")
-        conn = connect_to_efoqa()
-        response <- httr::POST(uri, body = body, httr::add_headers(.headers = headers), encode = encoding)
+        stop(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
       })
     } else if (rtype=="DELETE") {
       tryCatch({
         response <- httr::DELETE(uri, body = body, httr::add_headers(.headers = headers), encode = encoding)
       }, error = function(err) {
         print(err)
-        cat(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
-        cat("Trying to Reconnect EMS...\n")
-        conn = connect_to_efoqa()
-        response <- httr::DELETE(uri, body = body, httr::add_headers(.headers = headers), encode = encoding)
+        stop(sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)))
       })
     } else {
       stop(sprintf("%s: Unsupported request type.", rtype))
