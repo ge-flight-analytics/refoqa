@@ -314,3 +314,11 @@ all_physical_parameters <- get_all_physical_parameters()
 
 print( head( select( all_physical_parameters, name, flight_physical_data_configuration_id ) ) )
 ```
+
+Get a dataframe of all logical items (parameters and constants) on the system
+
+```{r}
+all_logical_items <- get_logical_FDW_item_list()
+
+print( head( select( all_logical_items, name, description, item_type ) ) )
+```
