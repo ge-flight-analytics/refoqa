@@ -79,7 +79,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 94a22c84-127a-4b23-9e46-a1d550871ab6) deleted.
+#> Async query connection (query ID: 750b191a-ff63-4295-86cb-34e8dc76004d) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +121,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 1a16815c-3805-44d5-956e-0f9c7faf8591) deleted.
+#> Async query connection (query ID: 10a07475-6b3e-49d1-80f2-5b66b5ed1b9d) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +131,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: a45afa58-0ea2-464d-b4df-fe2258d0f267) deleted.
+#> Async query connection (query ID: aa9a7964-5ede-47d6-bd76-0eb56c12aac9) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -279,24 +279,24 @@ print( head( airframe_id_table ) )
 #> # A tibble: 6 x 2
 #>   local_id discrete_string
 #>      <dbl> <chr>          
-#> 1       83 717-200        
-#> 2      185 727-200        
-#> 3      167 737 (BBJ)      
-#> 4      169 737 (BBJ2)     
-#> 5      159 737 (BBJ3)     
-#> 6      151 737 MAX 10
+#> 1      190 172S           
+#> 2       83 717-200        
+#> 3      185 727-200        
+#> 4      167 737 (BBJ)      
+#> 5      169 737 (BBJ2)     
+#> 6      159 737 (BBJ3)
 
 airframe_engine_id_table <- get_airframe_engine_id_table()
 print( head( airframe_engine_id_table ) )
 #> # A tibble: 6 x 2
 #>   local_id discrete_string   
 #>      <dbl> <chr>             
-#> 1      124 717-200 BR715     
-#> 2      243 727-200 JT8D      
-#> 3      212 737 (BBJ) CFM56-7 
-#> 4      224 737 (BBJ2) CFM56-7
-#> 5      222 737 (BBJ3) CFM56-7
-#> 6      210 737 MAX 10 LEAP-1B
+#> 1      245 172S IO-360       
+#> 2      124 717-200 BR715     
+#> 3      243 727-200 JT8D      
+#> 4      212 737 (BBJ) CFM56-7 
+#> 5      224 737 (BBJ2) CFM56-7
+#> 6      222 737 (BBJ3) CFM56-7
 ```
 
 Or you can get a table of possible discrete states for any field you
@@ -503,4 +503,22 @@ print( head( select( all_physical_parameters, name, flight_physical_data_configu
 #> 4 A/P CAUTION L FCC    Fleet 23                             
 #> 5 A/P CAUTION R FCC    Fleet 23                             
 #> 6 A/P CMD C ENGA C FCC Fleet 23
+```
+
+Get a dataframe of all logical items (parameters and constants) on the
+system
+
+``` r
+all_logical_items <- get_logical_FDW_item_list()
+
+print( head( select( all_logical_items, name, description, item_type ) ) )
+#> # A tibble: 6 x 3
+#>   name                        description                           item_type   
+#>   <chr>                       <chr>                                 <chr>       
+#> 1 FWC- Rud Trav Lim           ""                                    logical_par~
+#> 2 GMT (hrs)                   "Greenwich Mean Time (i.e. the time ~ logical_par~
+#> 3 Subframe Identifier         ""                                    logical_par~
+#> 4 Sync Error (error if > 0.5) "A synchronization error (a disrupti~ logical_par~
+#> 5 APU Command On (1=On)       "The flight-deck switch for activati~ logical_par~
+#> 6 APU EGT (deg C)             "Exhaust Gas Temperature (EGT) of th~ logical_par~
 ```
