@@ -71,6 +71,7 @@ refoqa has a couple of pre-built queries to get you started.  To get some genera
 
 ```{r flight_query_example}
 library(refoqa)
+library(tidyverse)
 
 all_flights <- standard_flight_query()
 
@@ -159,13 +160,21 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 
 ```
 
-There are options to do this directly from an R list (rather than json), and an option to do this without specifying a flight record if you want to ( refoqa will select a random flight for youu).
-These are mostly  useful for system maintenance type uses, but it is here if you want it.
+You can run an analytics query on multiple flight records with:
+```{r}
+query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+multiple_results <- analytics_query_multiflight(flight_ids=c(3135409, 3135410), query_list = query_as_r_list)
+
+multiple_results %>%
+  dplyr::group_by(flight_id) %>%
+  dplyr::summarise(max_alt = max(pressure_altitude_ft, na.rm = TRUE))
+
+```
+
+And an option to do this without specifying a flight record if you want to ( refoqa will select a random flight for you).
+Mostly  useful for system maintenance type uses, but it is here if you want it.
 
 ```{r}
-
-query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
-
 example_parameter_results <- analytics_query_with_unspecified_flight( query_list = query_as_r_list )
 
 ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
