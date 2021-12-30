@@ -149,7 +149,28 @@ analytics_query <- function( flight_id, query_list, efoqa_connection = connect_t
 
   content_df <- convert_analytics_query_to_dataframe( content, flight_id, efoqa_connection )
 
+  content_df$flight_id <- flight_id
+
   return(content_df)
+}
+
+#' Execute an analytics query over multiple flight ids
+#'
+#' @param flight_ids a vector of multiple flight ids to run the analytics query over.
+#' @param query_list R list form of the analytics query to peform
+#' @param efoqa_connection optional efoqa connection for multi-system or re-use.
+#'
+#' @return A dataframe containing the results of executing the query on each flight record.
+#' @export
+#'
+analytics_query_multiflight <- function( flight_ids, query_list,
+                                         efoqa_connection = connect_to_efoqa() ){
+
+  all_analytics_results <- purrr::map_dfr(flight_ids, analytics_query,
+                                          query_list, efoqa_connection)
+
+  return( all_analytics_results )
+
 }
 
 #' Analytics Query with Unspecified Flight

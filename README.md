@@ -71,6 +71,15 @@ standard\_flight\_query()
 
 ``` r
 library(refoqa)
+library(tidyverse)
+#> -- Attaching packages --------------------------------------- tidyverse 1.3.1 --
+#> v ggplot2 3.3.5     v purrr   0.3.4
+#> v tibble  3.1.5     v dplyr   1.0.7
+#> v tidyr   1.1.4     v stringr 1.4.0
+#> v readr   2.0.2     v forcats 0.5.1
+#> -- Conflicts ------------------------------------------ tidyverse_conflicts() --
+#> x dplyr::filter() masks stats::filter()
+#> x dplyr::lag()    masks stats::lag()
 
 all_flights <- standard_flight_query()
 #> Sending and opening an async-query to EMS ...
@@ -79,7 +88,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 750b191a-ff63-4295-86cb-34e8dc76004d) deleted.
+#> Async query connection (query ID: 40a0fc36-c27c-47df-b385-8219568eef77) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -121,7 +130,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 10a07475-6b3e-49d1-80f2-5b66b5ed1b9d) deleted.
+#> Async query connection (query ID: 80b00d83-a237-4da0-a2fd-ede61f153aa7) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -131,7 +140,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: aa9a7964-5ede-47d6-bd76-0eb56c12aac9) deleted.
+#> Async query connection (query ID: a66fb682-cf55-44ac-a2d7-d90fc2a6847e) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -226,14 +235,27 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
 
-There are options to do this directly from an R list (rather than json),
-and an option to do this without specifying a flight record if you want
-to ( refoqa will select a random flight for youu). These are mostly
-useful for system maintenance type uses, but it is here if you want it.
+You can run an analytics query on multiple flight records with:
 
 ``` r
 query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+multiple_results <- analytics_query_multiflight(flight_ids=c(3135409, 3135410), query_list = query_as_r_list)
 
+multiple_results %>%
+  dplyr::group_by(flight_id) %>%
+  dplyr::summarise(max_alt = max(pressure_altitude_ft, na.rm = TRUE))
+#> # A tibble: 2 x 2
+#>   flight_id max_alt
+#>       <dbl>   <dbl>
+#> 1   3135409   39049
+#> 2   3135410   38035
+```
+
+And an option to do this without specifying a flight record if you want
+to ( refoqa will select a random flight for you). Mostly useful for
+system maintenance type uses, but it is here if you want it.
+
+``` r
 example_parameter_results <- analytics_query_with_unspecified_flight( query_list = query_as_r_list )
 #> Sending a regular query to EMS ...Done.
 
@@ -242,7 +264,7 @@ ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_f
 #> Warning: Removed 2 row(s) containing missing values (geom_path).
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
 
 ### Search Analytic Ids
 
@@ -362,8 +384,8 @@ print(head(flights_737))
 #> # A tibble: 6 x 6
 #>   flight_record fleet    airframe p35_maximum_pressur~ p35_bank_angle_magnitude~
 #>   <chr>         <chr>    <chr>    <chr>                <chr>                    
-#> 1 3137698       Fleet 19 737-800  35968 ft             30.4102 degrees          
-#> 2 3137733       Fleet 19 737-800  30018 ft             29.8828 degrees          
+#> 1 3137733       Fleet 19 737-800  30018 ft             29.8828 degrees          
+#> 2 3137698       Fleet 19 737-800  35968 ft             30.4102 degrees          
 #> 3 3137877       Fleet 19 737-800  37015 ft             31.1133 degrees          
 #> 4 3137878       Fleet 19 737-800  33970 ft             25.6641 degrees          
 #> 5 3137881       Fleet 19 737-800  36018 ft             33.9258 degrees          
