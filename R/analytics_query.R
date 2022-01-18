@@ -58,6 +58,10 @@ get_analytic_types <- function(analytic_id, flight_id, efoqa_connection){
 
   metadata_values <- metadata$values
 
+  if(is.null(metadata_values)){
+    return("UNKNOWN")
+  }
+
   keys <- purrr::map_chr(metadata_values, function(x) x$key )
 
   analytic_type_entries <- metadata_values[keys == "DataType"]
@@ -113,8 +117,6 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
   values_df$offset <- unlist(analytics_content_list$offsets)
 
   values_df <- janitor::clean_names(values_df)
-
-  values_df
 
   return(values_df)
 }
