@@ -5,7 +5,12 @@
 \title{Query the FDW Parameters / Constants / 'Analytics' with an R list defining the query.
 This form of the query expects you to pass in the json query in the form of an R list.}
 \usage{
-analytics_query(flight_id, query_list, efoqa_connection = connect_to_efoqa())
+analytics_query(
+  flight_id,
+  query_list,
+  efoqa_connection = connect_to_efoqa(),
+  coerce_types = TRUE
+)
 }
 \arguments{
 \item{flight_id}{The numeric flight record id to target}
@@ -13,6 +18,8 @@ analytics_query(flight_id, query_list, efoqa_connection = connect_to_efoqa())
 \item{query_list}{list format of the query to perform.  See API documentation for details.}
 
 \item{efoqa_connection}{An optional efoqa connection list object for re-use or customization.}
+
+\item{coerce_types}{Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.}
 }
 \value{
 A list object with the results of the analytics query.
