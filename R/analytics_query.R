@@ -83,11 +83,16 @@ add_result_type <- function(analytic_result, analytic_type){
   return(analytic_result)
 }
 
-remove_nas_and_convert_type <- function( raw_values_list ){
+remove_nas_and_convert_type <- function( raw_values_list, force_type_string = FALSE ){
 
-  output_type <- raw_values_list$type
+  if(force_type_string){
+    output_type <- "String"
+  }else{
+    output_type <- raw_values_list$type
+  }
 
-  if(output_type == "String"){
+
+  if( output_type == "String" ){
     processed_values <- purrr::map_chr( raw_values_list$values, function( x ) ifelse( is.null( x ), NA, x ) )
   }else{
     processed_values <- purrr::map_dbl( raw_values_list$values, function( x ) ifelse( is.null( x ), NA, x ) )
@@ -97,19 +102,22 @@ remove_nas_and_convert_type <- function( raw_values_list ){
 }
 
 
-convert_analytics_query_to_dataframe <- function( analytics_content_list, flight_id, efoqa_connection ){
+convert_analytics_query_to_dataframe <- function( analytics_content_list, flight_id, efoqa_connection,
+                                                  coerce_types){
 
   analytics_results <- analytics_content_list$results
 
   analytics_ids <- purrr::map_chr( analytics_results, function(x) x$analyticId )
   analytics_names <- purrr::map_chr( analytics_ids, get_analytic_name, flight_id, efoqa_connection )
 
-  analytic_types <- purrr::map_chr( analytics_ids, get_analytic_types, flight_id, efoqa_connection )
-
-  #add in the type into the results data structure
-  analytics_results_with_type <- purrr::map2(analytics_results, analytic_types, add_result_type  )
-
-  all_values <- purrr::map( analytics_results_with_type, remove_nas_and_convert_type )
+  if( coerce_types ){
+    analytic_types <- purrr::map_chr( analytics_ids, get_analytic_types, flight_id, efoqa_connection )
+    #add in the type into the results data structure
+    analytics_results_with_type <- purrr::map2(analytics_results, analytic_types, add_result_type  )
+    all_values <- purrr::map( analytics_results_with_type, remove_nas_and_convert_type )
+  }else{
+    all_values <- purrr::map( analytics_results, remove_nas_and_convert_type, force_type_string=TRUE )
+  }
 
   names(all_values) <- analytics_names
 
@@ -128,6 +136,7 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
 #' @param flight_id The numeric flight record id to target
 #' @param query_list list format of the query to perform.  See API documentation for details.
 #' @param efoqa_connection An optional efoqa connection list object for re-use or customization.
+#' @param coerce_types Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.
 #'
 #' @return A list object with the results of the analytics query.
 #' @export
@@ -140,7 +149,8 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
 #'
 #' analytics_query(3135409, query_list_example)
 #' }
-analytics_query <- function( flight_id, query_list, efoqa_connection = connect_to_efoqa() ){
+analytics_query <- function( flight_id, query_list, efoqa_connection = connect_to_efoqa(),
+                             coerce_types = TRUE){
 
   response <- request_from_ems_api(efoqa_connection, rtype = "POST",
                        uri_keys = c('analytic', 'query'),
@@ -149,7 +159,8 @@ analytics_query <- function( flight_id, query_list, efoqa_connection = connect_t
 
   content <- httr::content(response)
 
-  content_df <- convert_analytics_query_to_dataframe( content, flight_id, efoqa_connection )
+  content_df <- convert_analytics_query_to_dataframe( content, flight_id, efoqa_connection,
+                                                      coerce_types)
 
   content_df$flight_id <- flight_id
 
