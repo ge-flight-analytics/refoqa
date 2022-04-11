@@ -26,7 +26,8 @@ uris <- list(
     open_asyncq	= '/v2/ems-systems/%s/databases/%s/async-query', #(ems-system_id, database_id)
     get_asyncq = '/v2/ems-systems/%s/databases/%s/async-query/%s/read/%s/%s', #(ems-system_id, database_id, async_query_id, start_row, end_row)
     close_asyncq = '/v2/ems-systems/%s/databases/%s/async-query/%s',
-    create = '/v2/ems-systems/%s/databases/%s/create' # (emsSystemId, databaseId)
+    create = '/v2/ems-systems/%s/databases/%s/create', # (emsSystemId, databaseId)
+    delete = '/v2/ems-systems/%s/databases/%s/delete' # (emsSystemId, databaseId)
   ),
   ems_sys = list(
     list = '/v2/ems-systems',
