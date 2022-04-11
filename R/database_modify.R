@@ -1,4 +1,6 @@
 
+utils::globalVariables(c("insert_group"))
+
 create_coloumn_query <- function(df, schema_map){
 
   #This code is ported over from Rems
@@ -69,8 +71,8 @@ insert_partial_data_frame <- function( target_partition, input_df_partitioned,
 
   print( glue::glue( "Running insert on partition {target_partition}" ) )
 
-  df_subset <- dplyr::filter(input_df_partitioned, insert_group == target_partition) %>%
-    dplyr::select(-insert_group)
+  df_subset <- dplyr::filter(input_df_partitioned, insert_group == target_partition)
+  df_subset <- dplyr::select(df_subset, -insert_group)
 
   insert_query <- create_insert_query( df_subset, schema_map )
 
@@ -87,7 +89,6 @@ insert_partial_data_frame <- function( target_partition, input_df_partitioned,
 #' @param input_df An R dataframe that should be inserted into the EMS database
 #' @param schema_map An R list that maps the dataframe columns to schema monikers.
 #' @param data_source_id Schema moniker of database entity type to be deleted.
-#' @param query_list  List form of the query to get the records that should be deleted
 #' @param efoqa_connection Connection to efoqa for re-use or advanced use.
 #'
 #' @export
