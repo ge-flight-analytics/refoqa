@@ -18,7 +18,7 @@ delete_from_query(
 \item{efoqa_connection}{Connection to efoqa for re-use or advanced use.}
 }
 \value{
-API status of delete query.
+TRUE when completed.
 }
 \description{
 Delete Entities from Query
