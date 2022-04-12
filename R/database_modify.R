@@ -115,7 +115,7 @@ insert_data_frame <- function(input_df, schema_map, data_source_id, efoqa_connec
 #' @param query_list  List form of the query to get the records that should be deleted
 #' @param efoqa_connection Connection to efoqa for re-use or advanced use.
 #'
-#' @return API status of delete query.
+#' @return TRUE when completed.
 #' @export
 #'
 delete_from_query <- function( data_source_id, query_list,
@@ -134,5 +134,5 @@ delete_from_query <- function( data_source_id, query_list,
                                          uri_args = c(efoqa_connection$system_id, data_source_id),
                                          jsondata = delete_query )
 
-  return(query_response$status)
+  return(TRUE)
 }
