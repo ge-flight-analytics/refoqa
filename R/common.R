@@ -43,6 +43,7 @@ uris <- list(
     info = '/v2/ems-systems/%s/assets/flight-phases/%s' 	#(ems-system_id, flt_phase_id)
   ),
   profile = list(
+    profile_groups = '/v2/ems-systems/%s/profile-groups',
     profiles = '/v2/ems-systems/%s/profiles',
     glossary = '/v2/ems-systems/%s/profiles/%s/glossary',
     events = '/v2/ems-systems/%s/profiles/%s/events'
