@@ -88,7 +88,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 4c538ee3-eb69-410a-b48f-23e477b7b4d9) deleted.
+#> Async query connection (query ID: 883379be-9b8e-4339-9ef4-e1efba6a40b3) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -130,7 +130,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: d77ef93b-f522-4c0f-96b6-c49273ca8dad) deleted.
+#> Async query connection (query ID: 037285c9-b05e-4be0-9bea-a7c555ca1575) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -140,7 +140,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  56411 rows.
-#> Async query connection (query ID: 09261256-d64b-4a1d-8b0f-f97d692e5998) deleted.
+#> Async query connection (query ID: dcaa15e5-1ed3-413f-b14b-386e60a54b17) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -152,8 +152,8 @@ print(head(example_event_data))
 #> 2 3135409       224780       Insufficient Engine~ Not a False P~ Caution  FOQA:~
 #> 3 3135409       224782       Insufficient Engine~ Not a False P~ Caution  Downg~
 #> 4 3135409       224784       Insufficient Engine~ Not a False P~ Caution  Unkno~
-#> 5 3135410       224790       Airspeed Exceeds Li~ Not a False P~ Informa~ Unkno~
-#> 6 3135410       224791       FDR/EMU Marker       Not a False P~ Informa~ FOQA:~
+#> 5 3135410       224790       Airspeed Exceeds Li~ Not a False P~ Informa~ Engin~
+#> 6 3135410       224791       FDR/EMU Marker       Not a False P~ Informa~ Engin~
 #> # ... with 22 more variables: baro_altitude_at_start_of_event_ft <dbl>,
 #> #   height_agl_at_start_of_event_ft <dbl>,
 #> #   height_above_takeoff_best_estimate_at_start_of_event_ft <dbl>,
@@ -183,12 +183,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 x 6
 #>   flight_record fleet    airframe p35_maximum_pressure_altitud~ p35_bank_angle_~
 #>   <chr>         <chr>    <chr>    <chr>                         <chr>           
-#> 1 3203702       Fleet 03 A320-200 34048 ft                      25.3123 degrees 
-#> 2 3208826       Fleet 03 A320-200 38036 ft                      26.0154 degrees 
-#> 3 3208827       Fleet 03 A320-200 35064 ft                      27.7732 degrees 
-#> 4 3211863       Fleet 03 A320-200 34052 ft                      25.3123 degrees 
-#> 5 3211868       Fleet 03 A320-200 35044 ft                      28.4764 degrees 
-#> 6 3215612       Fleet 03 A320-200 33056 ft                      27.4217 degrees 
+#> 1 3193189       Fleet 03 A320-200 36072 ft                      24.2576 degrees 
+#> 2 3203702       Fleet 03 A320-200 34048 ft                      25.3123 degrees 
+#> 3 3208826       Fleet 03 A320-200 38036 ft                      26.0154 degrees 
+#> 4 3208827       Fleet 03 A320-200 35064 ft                      27.7732 degrees 
+#> 5 3211863       Fleet 03 A320-200 34052 ft                      25.3123 degrees 
+#> 6 3211868       Fleet 03 A320-200 35044 ft                      28.4764 degrees 
 #> # ... with 1 more variable:
 #> #   p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```
@@ -230,7 +230,7 @@ example_parameter_results <- analytics_query_from_json(flight_id = 3135409, quer
 
 ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
   geom_line()
-#> Warning: Removed 2 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 row(s) containing missing values (geom_path).
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
@@ -251,6 +251,46 @@ multiple_results %>%
 #> 2   3135410   38035
 ```
 
+You can optionally specify start and end times too if you have them. You
+will have to pipe in the offsets from the database queries above. For
+example I have a stored query here that gets the timepoint Top of
+Descent to Touchdown for 10 flights. Note: The format = ‘none’ option is
+useful in these timepoint queries
+
+``` r
+flight_dataframe <-  database_query_from_json(data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              json_file = example_timepoint_query_file)
+#> Sending a regular query to EMS ...Done.
+names( flight_dataframe ) <- c("flight_record", "top_of_descent", "touchdown")
+print(head(flight_dataframe))
+#> # A tibble: 6 x 3
+#>   flight_record top_of_descent touchdown
+#>           <int>          <dbl>     <dbl>
+#> 1       3135409          23086    24420 
+#> 2       3135410          27852    29719 
+#> 3       3135417          10522    13967.
+#> 4       3135418           8337     9556.
+#> 5       3135421          15320    17084 
+#> 6       3135422          11650    13351.
+```
+
+And then we can do our same query but pass in these timepoints as the
+start and end.
+
+``` r
+query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+tod_to_touchdown <- analytics_query_multiflight(flight_ids=flight_dataframe$flight_record,
+                                                query_list = query_as_r_list,
+                                                start_offsets = flight_dataframe$top_of_descent,
+                                                end_offsets = flight_dataframe$touchdown)
+
+ggplot(data = tod_to_touchdown, aes(x = ground_track_distance_to_touchdown_nm, y = pressure_altitude_ft, color=as.factor(flight_id))) +
+  geom_point()
+#> Warning: Removed 7 rows containing missing values (geom_point).
+```
+
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+
 And an option to do this without specifying a flight record if you want
 to ( refoqa will select a random flight for you). Mostly useful for
 system maintenance type uses, but it is here if you want it.
@@ -261,10 +301,10 @@ example_parameter_results <- analytics_query_with_unspecified_flight( query_list
 
 ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
   geom_line()
-#> Warning: Removed 2 row(s) containing missing values (geom_path).
+#> Warning: Removed 3 row(s) containing missing values (geom_path).
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
 
 ### Search Analytic Ids
 
@@ -282,6 +322,9 @@ search_for_analytic( "Slat Operating Speed Maximum" )
 #> 
 #> [[1]]$units
 #> [1] "knots"
+#> 
+#> [[1]]$metadata
+#> NULL
 ```
 
 ## Helpers for Discretes or Dimensions
@@ -384,12 +427,12 @@ print(head(flights_737))
 #> # A tibble: 6 x 6
 #>   flight_record fleet    airframe p35_maximum_pressure_altitud~ p35_bank_angle_~
 #>   <chr>         <chr>    <chr>    <chr>                         <chr>           
-#> 1 3151061       Fleet 19 737-800  37050 ft                      28.8281 degrees 
-#> 2 3151003       Fleet 19 737-800  37015 ft                      29.3555 degrees 
-#> 3 3150959       Fleet 19 737-800  36000 ft                      31.4649 degrees 
-#> 4 3150944       Fleet 19 737-800  37023 ft                      28.3008 degrees 
-#> 5 3138691       Fleet 19 737-800  37032 ft                      24.4336 degrees 
-#> 6 3138694       Fleet 19 737-800  36014 ft                      29.1797 degrees 
+#> 1 3137698       Fleet 19 737-800  35968 ft                      30.4102 degrees 
+#> 2 3137733       Fleet 19 737-800  30018 ft                      29.8828 degrees 
+#> 3 3137877       Fleet 19 737-800  37015 ft                      31.1133 degrees 
+#> 4 3137878       Fleet 19 737-800  33970 ft                      25.6641 degrees 
+#> 5 3137881       Fleet 19 737-800  36018 ft                      33.9258 degrees 
+#> 6 3137884       Fleet 19 737-800  37013 ft                      25.6641 degrees 
 #> # ... with 1 more variable:
 #> #   p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```

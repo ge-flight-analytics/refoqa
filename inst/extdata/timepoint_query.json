@@ -1,0 +1,21 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][tp:profile-0243de4ce30a4a859a2d0a8b8f1510b6:tp-de721f6f5d5043dfae93abc96fc19455]]]",
+      "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][tp:profile-0243de4ce30a4a859a2d0a8b8f1510b6:tp-72b6bdf2c41a40d2a9049334bd07223c]]]",
+      "aggregate": "none"
+    }
+  ],
+  "groupBy": [],
+  "orderBy": [],
+  "distinct": true,
+  "top": 10,
+  "format": "none"
+}

@@ -9,6 +9,8 @@ analytics_query(
   flight_id,
   query_list,
   efoqa_connection = connect_to_efoqa(),
+  start_offset = NULL,
+  end_offset = NULL,
   coerce_types = TRUE
 )
 }
@@ -18,6 +20,10 @@ analytics_query(
 \item{query_list}{list format of the query to perform.  See API documentation for details.}
 
 \item{efoqa_connection}{An optional efoqa connection list object for re-use or customization.}
+
+\item{start_offset}{Request data starting at some offset}
+
+\item{end_offset}{Request data ending at some offset}
 
 \item{coerce_types}{Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.}
 }
