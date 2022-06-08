@@ -123,7 +123,7 @@ delete_from_query <- function( data_source_id, query_list,
 
   target_records <- database_query_from_list( data_source_id, query_list, efoqa_connection )
 
-  if( class( query_list$select ) == "data.frame" ){
+  if( methods::is( query_list$select, "data.frame" ) ){
     schema_map <- query_list$select$fieldId
     names(schema_map) <- names(target_records)
   }else{
