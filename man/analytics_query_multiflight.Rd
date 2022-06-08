@@ -7,13 +7,19 @@
 analytics_query_multiflight(
   flight_ids,
   query_list,
+  start_offsets = c(),
+  end_offsets = c(),
   efoqa_connection = connect_to_efoqa()
 )
 }
 \arguments{
 \item{flight_ids}{a vector of multiple flight ids to run the analytics query over.}
 
-\item{query_list}{R list form of the analytics query to peform}
+\item{query_list}{R list form of the analytics query to perform.}
+
+\item{start_offsets}{A vector of start offsets that match with the flight ids.}
+
+\item{end_offsets}{A vector of end offsets that match with the flight ids.}
 
 \item{efoqa_connection}{optional efoqa connection for multi-system or re-use.}
 }

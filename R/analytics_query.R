@@ -136,6 +136,8 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
 #' @param flight_id The numeric flight record id to target
 #' @param query_list list format of the query to perform.  See API documentation for details.
 #' @param efoqa_connection An optional efoqa connection list object for re-use or customization.
+#' @param start_offset Request data starting at some offset
+#' @param end_offset Request data ending at some offset
 #' @param coerce_types Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.
 #'
 #' @return A list object with the results of the analytics query.
@@ -149,8 +151,17 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
 #'
 #' analytics_query(3135409, query_list_example)
 #' }
-analytics_query <- function( flight_id, query_list, efoqa_connection = connect_to_efoqa(),
+analytics_query <- function( flight_id,
+                             query_list, efoqa_connection = connect_to_efoqa(),
+                             start_offset = NULL, end_offset = NULL,
                              coerce_types = TRUE){
+
+  if(!is.null(start_offset)){
+    query_list$start <- start_offset
+  }
+  if(!is.null(end_offset)){
+    query_list$end <- end_offset
+  }
 
   response <- request_from_ems_api(efoqa_connection, rtype = "POST",
                        uri_keys = c('analytic', 'query'),
@@ -170,17 +181,26 @@ analytics_query <- function( flight_id, query_list, efoqa_connection = connect_t
 #' Execute an analytics query over multiple flight ids
 #'
 #' @param flight_ids a vector of multiple flight ids to run the analytics query over.
-#' @param query_list R list form of the analytics query to peform
+#' @param query_list R list form of the analytics query to perform.
+#' @param start_offsets A vector of start offsets that match with the flight ids.
+#' @param end_offsets A vector of end offsets that match with the flight ids.
 #' @param efoqa_connection optional efoqa connection for multi-system or re-use.
 #'
 #' @return A dataframe containing the results of executing the query on each flight record.
 #' @export
 #'
 analytics_query_multiflight <- function( flight_ids, query_list,
+                                         start_offsets = c(),
+                                         end_offsets = c(),
                                          efoqa_connection = connect_to_efoqa() ){
 
-  all_analytics_results <- purrr::map_dfr(flight_ids, analytics_query,
-                                          query_list, efoqa_connection)
+  flight_frame <- tibble::tibble(flight_id = flight_ids,
+                                 start_offset = start_offsets,
+                                 end_offset = end_offsets)
+
+  all_analytics_results <- purrr::pmap_dfr(flight_frame, analytics_query,
+                                          query_list = query_list,
+                                          efoqa_connection = efoqa_connection)
 
   return( all_analytics_results )
 

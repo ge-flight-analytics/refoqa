@@ -114,3 +114,28 @@ list_all_apm_profiles <- function( efoqa_connection = connect_to_efoqa() ){
 
   return(profiles)
 }
+
+#' get_profile_group
+#'
+#' @param efoqa_connection optional efoqa_connection list
+#'
+#' @return R list describing the profile group contents.
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' profile_group_content <- get_profile_group( )
+#' }
+get_profile_group <- function( efoqa_connection = connect_to_efoqa() ){
+
+  cat("Querying for the list of profiles\n")
+
+  r <- request_from_ems_api(efoqa_connection,
+                            rtype = "GET",
+                            uri_keys = c('profile', ''),
+                            uri_args = c(efoqa_connection$system_id))
+
+  profiles <- httr::content(r)
+
+  return(profiles)
+}

@@ -171,6 +171,32 @@ multiple_results %>%
 
 ```
 
+You can optionally specify start and end times too if you have them.  You will have to pipe in the offsets from the database queries above.  For example I have a stored query here that gets the timepoint Top of Descent to Touchdown for 10 flights.  Note: The format = 'none' option is useful in these timepoint queries
+```{r include = FALSE}
+example_timepoint_query_file <- system.file("extdata", "timepoint_query.json", package = "refoqa")
+```
+
+```{r}
+flight_dataframe <-  database_query_from_json(data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                              json_file = example_timepoint_query_file)
+names( flight_dataframe ) <- c("flight_record", "top_of_descent", "touchdown")
+print(head(flight_dataframe))
+```
+
+And then we can do our same query but pass in these timepoints as the start and end.
+
+```{r}
+query_as_r_list <- jsonlite::read_json(example_analytics_query_file)
+tod_to_touchdown <- analytics_query_multiflight(flight_ids=flight_dataframe$flight_record,
+                                                query_list = query_as_r_list,
+                                                start_offsets = flight_dataframe$top_of_descent,
+                                                end_offsets = flight_dataframe$touchdown)
+
+ggplot(data = tod_to_touchdown, aes(x = ground_track_distance_to_touchdown_nm, y = pressure_altitude_ft, color=as.factor(flight_id))) +
+  geom_point()
+
+```
+
 And an option to do this without specifying a flight record if you want to ( refoqa will select a random flight for you).
 Mostly  useful for system maintenance type uses, but it is here if you want it.
 

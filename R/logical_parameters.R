@@ -13,7 +13,7 @@ gather_logical_items_recursively <- function( group_id, efoqa_connection, target
   #process the returned analytics first
   analytics <- content$analytics
   #change results into a dataframe
-  logical_parameters <- purrr::map_dfr(analytics, function(x) return(x))
+  logical_parameters <- purrr::map_dfr(analytics, remove_metadata )
   #add in the group id to the dataframe of results
   if(nrow(logical_parameters) > 0){
     logical_parameters$group_id <- group_id

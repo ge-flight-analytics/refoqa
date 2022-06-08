@@ -1,6 +1,14 @@
 
 utils::globalVariables(c("flight_id", "description"))
 
+#for now I am just going to drop the metadata, but this should be enhanced later to actually return it
+remove_metadata <- function( analytic_result ){
+
+  analytic_result['metadata'] <- NULL
+
+  return(analytic_result)
+}
+
 #' Get a list of all physical parameters for a given flight record.
 #'
 #' @param flight_id The numeric flight id for the flight to get physical parameters for.
@@ -25,7 +33,7 @@ get_physical_parameters_for_flight <- function(flight_id, efoqa_connection = con
   content <- httr::content(response)
 
   #change results into a dataframe
-  physical_parameters <- purrr::map_dfr(content$analytics, function(x) return(x))
+  physical_parameters <- purrr::map_dfr(content$analytics, remove_metadata )
   #skip if we don't get any parameters returned
   if(nrow(physical_parameters) == 0){
     return()
