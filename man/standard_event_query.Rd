@@ -5,8 +5,8 @@
 \title{Standard All Events Query}
 \usage{
 standard_event_query(
- 
-    event_data_source_id = "[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]",
+  event_data_source_id =
+    "[ems-apm][entity-type][events:profile-a7483c449db94a449eb5f67681ee52b0]",
   efoqa_connection = connect_to_efoqa()
 )
 }

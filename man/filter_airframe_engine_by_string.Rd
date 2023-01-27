@@ -9,8 +9,8 @@ filter_airframe_engine_by_string(
   query_list,
   target_airframe_engine_string,
   data_source_id = "[ems-core][entity-type][foqa-flights]",
- 
-    field_id = "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]"
+  field_id =
+    "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-engine]]]"
 )
 }
 \arguments{

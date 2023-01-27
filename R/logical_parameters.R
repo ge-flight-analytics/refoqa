@@ -1,4 +1,12 @@
 
+remove_metadata <- function( analytic_result ){
+
+  analytic_result['metadata'] <- NULL
+
+  return(analytic_result)
+}
+
+
 gather_logical_items_recursively <- function( group_id, efoqa_connection, target_category ){
 
   #execute the query

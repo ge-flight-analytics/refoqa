@@ -1,12 +1,22 @@
 
-utils::globalVariables(c("flight_id", "description"))
+utils::globalVariables(c("flight_id", "description", "key", "value"))
 
-#for now I am just going to drop the metadata, but this should be enhanced later to actually return it
-remove_metadata <- function( analytic_result ){
+#this function will take the analytic result and flatten out the metadata returned so that everything can be put into a single dataframe
+flatten_metadata <- function( analytic_result ){
 
+  metadata <- analytic_result$metadata
+
+  metadata_df <- purrr::map_dfr( metadata, ~ list( key = .x$key, value = as.character( .x$value ) ) )
+  metadata_df$key <- janitor::make_clean_names( metadata_df$key )
+  wide_metadata <- tidyr::pivot_wider( metadata_df, names_from = key )
+
+  #remove the metadata from the analytic result
   analytic_result['metadata'] <- NULL
 
-  return(analytic_result)
+  #and then bind in the wide version
+  results_with_metadata <- dplyr::bind_cols( analytic_result, wide_metadata)
+
+  return(results_with_metadata)
 }
 
 #' Get a list of all physical parameters for a given flight record.
@@ -28,12 +38,13 @@ get_physical_parameters_for_flight <- function(flight_id, efoqa_connection = con
   response <- request_from_ems_api(efoqa_connection, rtype = "GET",
                                    uri_keys = c('analytic', 'group_f'),
                                    uri_args = c(efoqa_connection$system_id, flight_id),
-                                   body = list(category="physical"))
+                                   body = list(category="physical",
+                                               includeMetadata="true"))
 
   content <- httr::content(response)
 
   #change results into a dataframe
-  physical_parameters <- purrr::map_dfr(content$analytics, remove_metadata )
+  physical_parameters <- purrr::map_dfr(content$analytics, flatten_metadata )
   #skip if we don't get any parameters returned
   if(nrow(physical_parameters) == 0){
     return()
