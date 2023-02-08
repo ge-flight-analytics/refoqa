@@ -127,7 +127,7 @@ delete_from_query <- function( data_source_id, query_list,
     schema_map <- query_list$select$fieldId
     names(schema_map) <- names(target_records)
   }else{
-    schema_map <- purrr::map_chr( query_list$select, ~.$fieldId )
+    schema_map <- purrr::map_chr( query_list$select, ~ as.character( .$fieldId ) )
     names(schema_map) <- names(target_records)
   }
 

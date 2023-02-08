@@ -12,7 +12,7 @@ create_data_frame_from_row <- function(row_of_data, field_names){
 ems_api_response_to_dataframe <- function(ems_api_response){
 
   #I would like to use the tidyr rectangle functions here, but since everything is unnamed I am doing it by hand
-  field_names <- purrr::map_chr(ems_api_response$header, function(x) x$name)
+  field_names <- purrr::map_chr(ems_api_response$header, function(x) as.character( x$name ) )
   results_data_frame <- purrr::map_dfr(ems_api_response$rows, function(x) create_data_frame_from_row(x, field_names))
 
   cleaned_data_frame <- janitor::clean_names(results_data_frame)

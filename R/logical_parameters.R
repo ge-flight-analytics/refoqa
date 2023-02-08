@@ -29,7 +29,7 @@ gather_logical_items_recursively <- function( group_id, efoqa_connection, target
 
   #then process the sub-groups
   groups <- content$groups
-  group_ids <- purrr::map_chr(groups, function(group) group$id)
+  group_ids <- purrr::map_chr(groups, function(group) as.character( group$id ) )
   sub_logical_parameters <- purrr::map_dfr(group_ids, gather_logical_items_recursively, efoqa_connection, target_category)
 
   all_logical_parameters <- dplyr::bind_rows(logical_parameters, sub_logical_parameters)
