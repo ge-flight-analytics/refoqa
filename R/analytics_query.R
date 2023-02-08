@@ -62,10 +62,10 @@ get_analytic_types <- function(analytic_id, flight_id, efoqa_connection){
     return("UNKNOWN")
   }
 
-  keys <- purrr::map_chr(metadata_values, function(x) x$key )
+  keys <- purrr::map_chr(metadata_values, function(x) as.character( x$key ) )
 
   analytic_type_entries <- metadata_values[keys == "DataType"]
-  analytic_types <- purrr::map_chr( analytic_type_entries, function( x ) x$value )
+  analytic_types <- purrr::map_chr( analytic_type_entries, function( x ) as.character( x$value ) )
 
   return(analytic_types)
 }
@@ -74,7 +74,7 @@ get_analytic_name <- function(analytic_id, flight_id, efoqa_connection){
 
   details <- get_analytic_details(analytic_id, flight_id, efoqa_connection)
 
-  return(details$name)
+  return( as.character( details$name ) )
 
 }
 
@@ -93,7 +93,9 @@ remove_nas_and_convert_type <- function( raw_values_list, force_type_string = FA
 
 
   if( output_type == "String" ){
-    processed_values <- purrr::map_chr( raw_values_list$values, function( x ) ifelse( is.null( x ), NA, x ) )
+    processed_values <- purrr::map_chr( raw_values_list$values, function( x ) ifelse( is.null( x ),
+                                                                                      NA,
+                                                                                      as.character( x ) ) )
   }else{
     processed_values <- purrr::map_dbl( raw_values_list$values, function( x ) ifelse( is.null( x ), NA, x ) )
   }
@@ -107,7 +109,7 @@ convert_analytics_query_to_dataframe <- function( analytics_content_list, flight
 
   analytics_results <- analytics_content_list$results
 
-  analytics_ids <- purrr::map_chr( analytics_results, function(x) x$analyticId )
+  analytics_ids <- purrr::map_chr( analytics_results, function(x) as.character( x$analyticId ) )
   analytics_names <- purrr::map_chr( analytics_ids, get_analytic_name, flight_id, efoqa_connection )
 
   if( coerce_types ){
