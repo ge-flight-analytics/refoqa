@@ -15,6 +15,10 @@
     {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]",
       "aggregate": "none"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-manufacturer]]]",
+      "aggregate": "none"
     }
   ],
   "groupBy": [
@@ -26,6 +30,9 @@
     },
     {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][fleet-group]]]"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[airframe-engine-field-set][base-field][airframe-manufacturer]]]"
     }
   ],
   "orderBy": [
