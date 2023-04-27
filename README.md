@@ -88,7 +88,7 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 8d54e5fd-6231-4246-a5ce-7a34b427beb8) deleted.
+#> Async query connection (query ID: 041e842a-6e89-45b9-8429-ffb77e19f37e) deleted.
 #> Done.
 
 print(head(all_flights))
@@ -132,7 +132,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  58349 rows.
-#> Async query connection (query ID: de41a11d-3d25-4436-ba99-8c8c989dc945) deleted.
+#> Async query connection (query ID: 71a1ffd2-7fd3-4331-bf6b-d59d84497b11) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -142,7 +142,7 @@ example_event_data <- standard_event_query(
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
 #> Received up to  58349 rows.
-#> Async query connection (query ID: 7302bbae-fa8f-49b2-ac66-10a948905e6b) deleted.
+#> Async query connection (query ID: 059055ea-ace1-4f0f-9650-c5f6b140ca85) deleted.
 #> Done.
 #> Joining, by = c("flight_record", "event_record")
 
@@ -185,12 +185,12 @@ print(head(custom_query_results))
 #> # A tibble: 6 × 6
 #>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
 #>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
-#> 1 3193189       Fleet 03 A320-200 36072 ft                       24.257… 17.929…
-#> 2 3203702       Fleet 03 A320-200 34048 ft                       25.312… 16.874…
-#> 3 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
-#> 4 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
-#> 5 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
-#> 6 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
+#> 1 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
+#> 2 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
+#> 3 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
+#> 4 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
+#> 5 3215612       Fleet 03 A320-200 33056 ft                       27.421… 17.929…
+#> 6 3216167       Fleet 03 A320-200 37064 ft                       29.531… 15.468…
 #> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
 #> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
 #> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees
@@ -200,18 +200,30 @@ print(head(custom_query_results))
 
 #### Field Formats
 
-At least as of right now, the return type of each field is based on your
-query. This means that in your json query,
+The return type of each field is based on your query. This means that in
+your json query,
 
     "format": "display" 
 
-Will return all results as strings.
+Will return all the result as a strings.
 
     "format": "none" 
 
 Will return numbers.
 
-We may change at some point.
+You can set this globally at the base of your json for all fields or
+overwrite the value for any given field within the ‘select’ definition.
+
+    {
+      "select": [
+        {
+          "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+          "aggregate": "none",
+          "format": "none"
+        }
+      ],
+      "format": "display"
+    }
 
 #### ‘Top 10’
 
@@ -221,6 +233,23 @@ to just the first 10 records:
       "top": 10
 
 Delete this line to get all results.
+
+#### Alias for Fields
+
+You can set an alias for any database field within the select statement.
+This lets you shorten the returned name for something very specific
+‘best available baro corrected altitude 1 at start of event’ to
+something very short and convenient ‘altitude’
+
+    {
+      "select": [
+        {
+          "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+          "aggregate": "none",
+          "alias": "flight_record
+        }
+      ]
+    }
 
 ## Full Flight Data ‘Analytics’ Queries
 
@@ -409,11 +438,11 @@ print(head(fleet_03_flights))
 #>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
 #>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
 #> 1 3193189       Fleet 03 A320-200 36072 ft                       24.257… 17.929…
-#> 2 3203702       Fleet 03 A320-200 34048 ft                       25.312… 16.874…
-#> 3 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
-#> 4 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
-#> 5 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
-#> 6 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
+#> 2 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
+#> 3 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
+#> 4 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
+#> 5 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
+#> 6 3215612       Fleet 03 A320-200 33056 ft                       27.421… 17.929…
 #> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
 #> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
 #> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees
@@ -433,12 +462,12 @@ print(head(flights_737))
 #> # A tibble: 6 × 6
 #>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
 #>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
-#> 1 3137698       Fleet 19 737-800  35968 ft                       30.410… 18.105…
-#> 2 3137733       Fleet 19 737-800  30018 ft                       29.882… 21.796…
-#> 3 3137877       Fleet 19 737-800  37015 ft                       31.113… 19.160…
-#> 4 3137878       Fleet 19 737-800  33970 ft                       25.664… 15.996…
-#> 5 3137881       Fleet 19 737-800  36018 ft                       33.925… 16.523…
-#> 6 3137884       Fleet 19 737-800  37013 ft                       25.664… 17.050…
+#> 1 3151305       Fleet 19 737-800  35026 ft                       27.949… 16.699…
+#> 2 3151307       Fleet 19 737-800  37020 ft                       30.410… 17.050…
+#> 3 3151328       Fleet 19 737-800  35018 ft                       27.070… 18.281…
+#> 4 3151330       Fleet 19 737-800  36015 ft                       34.277… 18.105…
+#> 5 3151331       Fleet 19 737-800  38001 ft                       27.773… 15.996…
+#> 6 3151338       Fleet 19 737-800  33008 ft                       32.343… 15.293…
 #> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
 #> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
 #> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees

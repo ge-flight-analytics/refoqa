@@ -121,17 +121,30 @@ print(head(custom_query_results))
 
 #### Field Formats
 
-At least as of right now, the return type of each field is based on your query.  This means that in your json query, 
+The return type of each field is based on your query.  This means that in your json query, 
 ```
 "format": "display" 
 ```
-Will return all results as strings.  
+Will return all the result as a strings.  
 ```
 "format": "none" 
 ```
 Will return numbers.  
 
-We may change at some point.
+You can set this globally at the base of your json for all fields or overwrite the value for any given field within the 'select' definition.
+```
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none",
+      "format": "none"
+    }
+  ],
+  "format": "display"
+}
+
+```
 
 #### 'Top 10'
 
@@ -141,6 +154,22 @@ By default the Data Sources App will include a line limiting the results to just
 ```
 Delete this line to get all results.
 
+#### Alias for Fields
+
+You can set an alias for any database field within the select statement.  This lets you shorten the returned name for something very specific 'best available baro corrected altitude 1 at start of event' to something very short and convenient 'altitude'
+
+```
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "none",
+      "alias": "flight_record
+    }
+  ]
+}
+
+```
 
 ## Full Flight Data 'Analytics' Queries
 
