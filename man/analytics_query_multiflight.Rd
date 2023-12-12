@@ -9,7 +9,8 @@ analytics_query_multiflight(
   query_list,
   start_offsets = c(),
   end_offsets = c(),
-  efoqa_connection = connect_to_efoqa()
+  efoqa_connection = connect_to_efoqa(),
+  coerce_types = TRUE
 )
 }
 \arguments{
@@ -21,7 +22,9 @@ analytics_query_multiflight(
 
 \item{end_offsets}{A vector of end offsets that match with the flight ids.}
 
-\item{efoqa_connection}{optional efoqa connection for multi-system or re-use.}
+\item{efoqa_connection}{Optional efoqa connection for multi-system or re-use.}
+
+\item{coerce_types}{Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.}
 }
 \value{
 A dataframe containing the results of executing the query on each flight record.

@@ -186,7 +186,8 @@ analytics_query <- function( flight_id,
 #' @param query_list R list form of the analytics query to perform.
 #' @param start_offsets A vector of start offsets that match with the flight ids.
 #' @param end_offsets A vector of end offsets that match with the flight ids.
-#' @param efoqa_connection optional efoqa connection for multi-system or re-use.
+#' @param efoqa_connection Optional efoqa connection for multi-system or re-use.
+#' @param coerce_types Set this to FALSE to get all results back as strings.  This will improve speed a little bit since no metadata queries will be required.
 #'
 #' @return A dataframe containing the results of executing the query on each flight record.
 #' @export
@@ -194,7 +195,8 @@ analytics_query <- function( flight_id,
 analytics_query_multiflight <- function( flight_ids, query_list,
                                          start_offsets = c(),
                                          end_offsets = c(),
-                                         efoqa_connection = connect_to_efoqa() ){
+                                         efoqa_connection = connect_to_efoqa(),
+                                         coerce_types = TRUE ){
 
   flight_frame <- tibble::tibble(flight_id = flight_ids,
                                  start_offset = start_offsets,
@@ -202,7 +204,8 @@ analytics_query_multiflight <- function( flight_ids, query_list,
 
   all_analytics_results <- purrr::pmap_dfr(flight_frame, analytics_query,
                                           query_list = query_list,
-                                          efoqa_connection = efoqa_connection)
+                                          efoqa_connection = efoqa_connection,
+                                          coerce_types = coerce_types )
 
   return( all_analytics_results )
 
