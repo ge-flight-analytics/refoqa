@@ -98,11 +98,15 @@ get_all_field_details_below_group_as_df <- function( field_group_id,
   fields_ids_at_level <- purrr::map_chr( fields_at_level, ~ .x$id )
 
   #recursively get all of the field details for each sub-group
-  fields_below_level <- purrr::map_dfr( group_ids_at_level_not_excluded, get_all_field_details_below_group_as_df,
-                                        data_source_id, efoqa_connection)
+  fields_below_level <- purrr::map_dfr( group_ids_at_level_not_excluded,
+                                        get_all_field_details_below_group_as_df,
+                                        data_source_id,
+                                        exclude_folder_ids,
+                                        efoqa_connection)
 
   #get the field details for all leaf fields
-  field_details_at_level <- purrr::map_dfr( fields_ids_at_level, field_details_query_as_df,
+  field_details_at_level <- purrr::map_dfr( fields_ids_at_level,
+                                            field_details_query_as_df,
                                             data_source_id,
                                             efoqa_connection)
 
@@ -132,7 +136,8 @@ get_odw_logical_item_fields <- function( efoqa_connection = connect_to_efoqa() )
   odw_fields <- get_all_field_details_below_group_as_df(
     field_group_id = "[-hub-][field-group][[[odw-logical][entity-type][odw-flights]][[--][internal-field-group][root]]]",
     data_source_id = "[odw-logical][entity-type][odw-flights]",
-    exclude_folder_ids = c( "[-hub-][field-group][[[odw-logical][entity-type][odw-flights]][[odw-logical][internal-field-group][flight-info]]]" ) )
+    exclude_folder_ids = c( "[-hub-][field-group][[[odw-logical][entity-type][odw-flights]][[odw-logical][internal-field-group][flight-info]]]" ),
+    efoqa_connection )
 
   return( odw_fields )
 }
