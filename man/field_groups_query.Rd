@@ -23,3 +23,10 @@ List of details for the field group of interest.
 \description{
 Query for details of a database field group
 }
+\examples{
+\dontrun{
+odw_fields <- get_all_field_details_below_group_as_df(
+  field_group_id = "[-hub-][field-group][[[odw-logical][entity-type][odw-flights]][[--][internal-field-group][root]]]",
+  data_source_id = "[odw-logical][entity-type][odw-flights]" )
+}
+}

@@ -122,4 +122,21 @@ standard_pdc_query <- function( efoqa_connection = connect_to_efoqa() ){
   return(pdc_query_results)
 }
 
+#' Standard Fleet Query
+#'
+#' @param efoqa_connection Optional connection string for re-used or advanced configuration
+#'
+#' @return A dataframe with one entry per fleet on the system giving the number of flights, and most recent dates and flight records
+#' @export
+#'
+
+standard_fleet_query <- function( efoqa_connection = connect_to_efoqa() ){
+
+  fleet_query_results <- simple_database_query(efoqa_connection,
+                                             data_source_id = "[ems-core][entity-type][foqa-flights]",
+                                             jsondata = fleet_query_json)
+
+  return(fleet_query_results)
+}
+
 

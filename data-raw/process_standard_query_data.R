@@ -12,6 +12,8 @@ single_sample_flight_query_json <- jsonlite::read_json("./data-raw/single_sample
 
 pdc_query_json <- jsonlite::read_json("./data-raw/pdc_query.json")
 
+fleet_query_json <- jsonlite::read_json("./data-raw/fleet_query.json")
+
 #internal data
 usethis::use_data(
   standard_flight_query_json,
@@ -20,5 +22,6 @@ usethis::use_data(
   standard_airframe_query_json,
   single_sample_flight_query_json,
   pdc_query_json,
+  fleet_query_json,
   overwrite = TRUE,
   internal = TRUE)

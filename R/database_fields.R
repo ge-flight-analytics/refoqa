@@ -13,7 +13,7 @@
 #' \dontrun{
 #' odw_fields <- get_all_field_details_below_group_as_df(
 #'   field_group_id = "[-hub-][field-group][[[odw-logical][entity-type][odw-flights]][[--][internal-field-group][root]]]",
-#'   data_source_id = "[odw-logical][entity-type][odw-flights] )
+#'   data_source_id = "[odw-logical][entity-type][odw-flights]" )
 #' }
 
 field_groups_query <- function( field_group_id,
