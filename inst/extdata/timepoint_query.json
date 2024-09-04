@@ -2,20 +2,44 @@
   "select": [
     {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
-      "aggregate": "none"
+      "aggregate": "none",
+      "alias": "flight_record"
     },
     {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][tp:profile-0243de4ce30a4a859a2d0a8b8f1510b6:tp-de721f6f5d5043dfae93abc96fc19455]]]",
-      "aggregate": "none"
+      "aggregate": "none",
+      "alias": "top_of_descent"
     },
     {
       "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-apm][flight-field][tp:profile-0243de4ce30a4a859a2d0a8b8f1510b6:tp-72b6bdf2c41a40d2a9049334bd07223c]]]",
-      "aggregate": "none"
+      "aggregate": "none",
+      "alias": "touchdown"
     }
   ],
   "groupBy": [],
   "orderBy": [],
   "distinct": true,
   "top": 10,
-  "format": "none"
+  "format": "none",
+  "filter": {
+    "operator": "and",
+    "args": [
+      {
+        "type": "filter",
+        "value": {
+          "operator": "equal",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[dp][base-field][activity-APM_profile_0243de4ce30a4a859a2d0a8b8f1510b6:state]]]"
+            },
+            {
+              "type": "constant",
+              "value": 6
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

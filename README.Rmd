@@ -208,7 +208,6 @@ example_timepoint_query_file <- system.file("extdata", "timepoint_query.json", p
 ```{r}
 flight_dataframe <-  database_query_from_json(data_source_id = "[ems-core][entity-type][foqa-flights]",
                                               json_file = example_timepoint_query_file)
-names( flight_dataframe ) <- c("flight_record", "top_of_descent", "touchdown")
 print(head(flight_dataframe))
 ```
 
@@ -351,6 +350,14 @@ A built-in query for a summary of the airframe-engine types on the system
 airframe_summary <- standard_airframe_query()
 
 print( head( airframe_summary ) )
+```
+
+A built-in query for a summary of the fleets on the system
+```{r}
+
+fleet_summary <- standard_fleet_query()
+
+print( head( fleet_summary ) )
 ```
 
 ### Misc

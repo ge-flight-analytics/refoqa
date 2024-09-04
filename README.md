@@ -72,14 +72,16 @@ standard_flight_query()
 ``` r
 library(refoqa)
 library(tidyverse)
-#> ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-#> ✔ ggplot2 3.4.0      ✔ purrr   1.0.1 
-#> ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-#> ✔ tidyr   1.2.1      ✔ stringr 1.5.0 
-#> ✔ readr   2.1.3      ✔ forcats 0.5.2 
+#> ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+#> ✔ dplyr     1.1.4     ✔ readr     2.1.5
+#> ✔ forcats   1.0.0     ✔ stringr   1.5.1
+#> ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+#> ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+#> ✔ purrr     1.0.2     
 #> ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 #> ✖ dplyr::filter() masks stats::filter()
 #> ✖ dplyr::lag()    masks stats::lag()
+#> ℹ Use the conflicted package (<http://conflicted.r-lib.org/>) to force all conflicts to become errors
 
 all_flights <- standard_flight_query()
 #> Sending and opening an async-query to EMS ...
@@ -88,25 +90,25 @@ all_flights <- standard_flight_query()
 #> Received up to  25000 rows.
 #> === Async call: 2 === 
 #> Received up to  45145 rows.
-#> Async query connection (query ID: 041e842a-6e89-45b9-8429-ffb77e19f37e) deleted.
+#> character(0)
+#> Async query connection (query ID: 8e16a67e-46fb-4961-9196-880d908dee12) deleted.
 #> Done.
 
 print(head(all_flights))
 #> # A tibble: 6 × 15
-#>   flight…¹ fligh…² fligh…³ fleet tail_…⁴ airfr…⁵ airfr…⁶ airfr…⁷ takeo…⁸ takeo…⁹
-#>   <chr>    <chr>   <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#> 1 3135409  Oct 20… 0       Flee… GE-704  747-400 747-40… 747     RJAA    NRT    
-#> 2 3135410  Oct 20… 0       Flee… GE-704  747-400 747-40… 747     PHNL    HNL    
-#> 3 3135417  Nov 20… 0       Flee… GE-704  747-400 747-40… 747     RJAA    NRT    
-#> 4 3135418  Nov 20… 0       Flee… GE-704  747-400 747-40… 747     RCTP    TPE    
-#> 5 3135421  Nov 20… 0       Flee… GE-704  747-400 747-40… 747     RJAA    NRT    
-#> 6 3135422  Nov 20… 0       Flee… GE-704  747-400 747-40… 747     RPLL    MNL    
-#> # … with 5 more variables: takeoff_runway_id <chr>, detected_approach <chr>,
+#>   flight_record flight_date flight_number fleet    tail_number airframe
+#>   <chr>         <chr>       <chr>         <chr>    <chr>       <chr>   
+#> 1 3135409       Oct 2012    0             Fleet 14 GE-704      747-400 
+#> 2 3135410       Oct 2012    0             Fleet 14 GE-704      747-400 
+#> 3 3135417       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 4 3135418       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 5 3135421       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> 6 3135422       Nov 2012    0             Fleet 14 GE-704      747-400 
+#> # ℹ 9 more variables: airframe_engine_type <chr>, airframe_group <chr>,
+#> #   takeoff_airport_icao_code <chr>, takeoff_airport_iata_code <chr>,
+#> #   takeoff_runway_id <chr>, detected_approach <chr>,
 #> #   landing_airport_icao_code <chr>, landing_airport_iata_code <chr>,
-#> #   landing_runway_id <chr>, and abbreviated variable names ¹​flight_record,
-#> #   ²​flight_date, ³​flight_number, ⁴​tail_number, ⁵​airframe,
-#> #   ⁶​airframe_engine_type, ⁷​airframe_group, ⁸​takeoff_airport_icao_code,
-#> #   ⁹​takeoff_airport_iata_code
+#> #   landing_runway_id <chr>
 ```
 
 ## Specifying the ‘Data Source Id’ (aka entity or database)
@@ -131,8 +133,9 @@ example_event_data <- standard_event_query(
 #> === Async call: 2 === 
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
-#> Received up to  58349 rows.
-#> Async query connection (query ID: 71a1ffd2-7fd3-4331-bf6b-d59d84497b11) deleted.
+#> Received up to  58347 rows.
+#> character(0)
+#> Async query connection (query ID: a7a0e54e-fcd1-4269-a165-f145d2618b9c) deleted.
 #> Done.
 #> Sending and opening an async-query to EMS ...
 #> Done.
@@ -141,28 +144,29 @@ example_event_data <- standard_event_query(
 #> === Async call: 2 === 
 #> Received up to  50000 rows.
 #> === Async call: 3 === 
-#> Received up to  58349 rows.
-#> Async query connection (query ID: 059055ea-ace1-4f0f-9650-c5f6b140ca85) deleted.
+#> Received up to  58347 rows.
+#> character(0)
+#> Async query connection (query ID: 1b8e2425-7159-4214-9899-a31482f9ca27) deleted.
 #> Done.
-#> Joining, by = c("flight_record", "event_record")
+#> Joining with `by = join_by(flight_record, event_record)`
 
 print(head(example_event_data))
 #> # A tibble: 6 × 28
-#>   fligh…¹ event…² event…³ false…⁴ sever…⁵ status baro_…⁶ heigh…⁷ heigh…⁸ heigh…⁹
-#>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>    <dbl>   <dbl>   <dbl>   <dbl>
-#> 1 3135409 283120  Insuff… Not a … Caution Downg…      32      0    -129. -2.99e0
-#> 2 3135409 283121  Insuff… Not a … Inform… Signi…      32      0    -129. -2.99e0
-#> 3 3135409 283122  Insuff… Not a … Inform… Downg…      32      0    -129. -2.99e0
-#> 4 3135409 283123  Insuff… Not a … Inform… Downg…      32      0    -129. -2.99e0
-#> 5 3135410 283128  Airspe… Not a … Inform… Engin…    2856   2865.   2787.  2.66e3
-#> 6 3135410 283129  FDR/EM… Not a … Inform… Engin…   36992  37998.  36911.  3.68e4
-#> # … with 18 more variables: airspeed_calibrated_at_start_of_event_knots <dbl>,
+#>   flight_record event_record event_type           false_positive severity status
+#>   <chr>         <chr>        <chr>                <chr>          <chr>    <chr> 
+#> 1 4740995       187266       Master Warning       Not a False P… Caution  Unkno…
+#> 2 4263140       197871       TCAS Traffic Adviso… Not a False P… Informa… Unkno…
+#> 3 5670598       224802       Unstable Approach (… Not a False P… Caution  Unkno…
+#> 4 5670603       224803       High-Energy Descent  Not a False P… Informa… Unkno…
+#> 5 5670603       224804       Unstable Approach (… Not a False P… Caution  FOQA:…
+#> 6 5670603       224805       Insufficient Engine… Not a False P… Informa… Unkno…
+#> # ℹ 22 more variables: baro_altitude_at_start_of_event_ft <dbl>,
+#> #   height_agl_at_start_of_event_ft <dbl>,
+#> #   height_above_takeoff_best_estimate_at_start_of_event_ft <dbl>,
+#> #   height_above_touchdown_best_estimate_at_start_of_event_ft <dbl>,
+#> #   airspeed_calibrated_at_start_of_event_knots <dbl>,
 #> #   ground_speed_at_start_of_event_knots <dbl>,
-#> #   mach_number_at_start_of_event <dbl>,
-#> #   pitch_attitude_captains_or_only_at_start_of_event_deg <dbl>,
-#> #   angle_of_attack_best_available_at_start_of_event_deg <dbl>,
-#> #   roll_attitude_captains_or_only_at_start_of_event_deg <dbl>,
-#> #   vertical_speed_at_start_of_event_ft_min <dbl>, …
+#> #   mach_number_at_start_of_event <dbl>, …
 ```
 
 ## A Full Custom Query
@@ -171,7 +175,10 @@ Now let’s do a full custom query. Run through the full ‘Data Source’ app
 selecting the data source and fields. In the end you will get a json
 query in the ‘JSON Editor’ tab.
 
-![JSON Query Example](images/example_json_query.PNG)
+<figure>
+<img src="images/example_json_query.PNG" alt="JSON Query Example" />
+<figcaption aria-hidden="true">JSON Query Example</figcaption>
+</figure>
 
 Copy + Paste this json query to create a new json file in your R
 project. Then pass it to ‘database_query_from_json’ along with the data
@@ -183,17 +190,17 @@ custom_query_results <- database_query_from_json(data_source_id = "[ems-core][en
 #> Sending a regular query to EMS ...Done.
 print(head(custom_query_results))
 #> # A tibble: 6 × 6
-#>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
-#>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
-#> 1 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
-#> 2 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
-#> 3 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
-#> 4 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
-#> 5 3215612       Fleet 03 A320-200 33056 ft                       27.421… 17.929…
-#> 6 3216167       Fleet 03 A320-200 37064 ft                       29.531… 15.468…
-#> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
-#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
-#> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees
+#>   flight_record fleet    airframe p35_maximum_pressure_…¹ p35_bank_angle_magni…²
+#>   <chr>         <chr>    <chr>    <chr>                   <chr>                 
+#> 1 3193189       Fleet 03 A320-200 36072 ft                24.2576 degrees       
+#> 2 3203702       Fleet 03 A320-200 34048 ft                25.3123 degrees       
+#> 3 3208826       Fleet 03 A320-200 38036 ft                26.0154 degrees       
+#> 4 3208827       Fleet 03 A320-200 35064 ft                27.7732 degrees       
+#> 5 3211863       Fleet 03 A320-200 34052 ft                25.3123 degrees       
+#> 6 3211868       Fleet 03 A320-200 35044 ft                28.4764 degrees       
+#> # ℹ abbreviated names: ¹​p35_maximum_pressure_altitude_ft,
+#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees
+#> # ℹ 1 more variable: p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```
 
 ### Notes
@@ -263,7 +270,8 @@ example_parameter_results <- analytics_query_from_json(flight_id = 3135409, quer
 
 ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
   geom_line()
-#> Warning: Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
@@ -294,7 +302,6 @@ useful in these timepoint queries
 flight_dataframe <-  database_query_from_json(data_source_id = "[ems-core][entity-type][foqa-flights]",
                                               json_file = example_timepoint_query_file)
 #> Sending a regular query to EMS ...Done.
-names( flight_dataframe ) <- c("flight_record", "top_of_descent", "touchdown")
 print(head(flight_dataframe))
 #> # A tibble: 6 × 3
 #>   flight_record top_of_descent touchdown
@@ -319,7 +326,8 @@ tod_to_touchdown <- analytics_query_multiflight(flight_ids=flight_dataframe$flig
 
 ggplot(data = tod_to_touchdown, aes(x = ground_track_distance_to_touchdown_nm, y = pressure_altitude_ft, color=as.factor(flight_id))) +
   geom_point()
-#> Warning: Removed 6 rows containing missing values (`geom_point()`).
+#> Warning: Removed 6 rows containing missing values or values outside the scale range
+#> (`geom_point()`).
 ```
 
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
@@ -334,7 +342,8 @@ example_parameter_results <- analytics_query_with_unspecified_flight( query_list
 
 ggplot(data = example_parameter_results, aes(x = offset, y = pressure_altitude_ft)) +
   geom_line()
-#> Warning: Removed 3 rows containing missing values (`geom_line()`).
+#> Warning: Removed 3 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
 ```
 
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="100%" />
@@ -358,6 +367,33 @@ search_for_analytic( "Slat Operating Speed Maximum" )
 #> 
 #> [[1]]$metadata
 #> NULL
+#> 
+#> [[1]]$path
+#> [[1]]$path[[1]]
+#> [1] "RG.Root.FlightData"
+#> 
+#> [[1]]$path[[2]]
+#> [1] "RG.FlightConstants.Hierarchical"
+#> 
+#> [[1]]$path[[3]]
+#> [1] "RG.FlightConstants.Hierarchical.Flight Dynamics"
+#> 
+#> [[1]]$path[[4]]
+#> [1] "RG.FlightConstants.Hierarchical.Flight Dynamics.Speed"
+#> 
+#> 
+#> [[1]]$displayPath
+#> [[1]]$displayPath[[1]]
+#> [1] "Flight Data"
+#> 
+#> [[1]]$displayPath[[2]]
+#> [1] "Fleet Constants"
+#> 
+#> [[1]]$displayPath[[3]]
+#> [1] "Flight Dynamics"
+#> 
+#> [[1]]$displayPath[[4]]
+#> [1] "Speed"
 ```
 
 ## Helpers for Discretes or Dimensions
@@ -378,24 +414,24 @@ print( head( airframe_id_table ) )
 #> # A tibble: 6 × 2
 #>   local_id discrete_string
 #>      <dbl> <chr>          
-#> 1      190 172S           
-#> 2       83 717-200        
-#> 3      185 727-200        
-#> 4      167 737 (BBJ)      
-#> 5      169 737 (BBJ2)     
-#> 6      159 737 (BBJ3)
+#> 1       83 717-200        
+#> 2      185 727-200        
+#> 3      167 737 (BBJ)      
+#> 4      169 737 (BBJ2)     
+#> 5      159 737 (BBJ3)     
+#> 6      151 737 MAX 10
 
 airframe_engine_id_table <- get_airframe_engine_id_table()
 print( head( airframe_engine_id_table ) )
 #> # A tibble: 6 × 2
 #>   local_id discrete_string   
 #>      <dbl> <chr>             
-#> 1      245 172S IO-360       
-#> 2      124 717-200 BR715     
-#> 3      243 727-200 JT8D      
-#> 4      212 737 (BBJ) CFM56-7 
-#> 5      224 737 (BBJ2) CFM56-7
-#> 6      222 737 (BBJ3) CFM56-7
+#> 1      124 717-200 BR715     
+#> 2      243 727-200 JT8D      
+#> 3      212 737 (BBJ) CFM56-7 
+#> 4      224 737 (BBJ2) CFM56-7
+#> 5      222 737 (BBJ3) CFM56-7
+#> 6      210 737 MAX 10 LEAP-1B
 ```
 
 Or you can get a table of possible discrete states for any field you
@@ -435,17 +471,17 @@ fleet_03_flights <- database_query_from_list( data_source_id = "[ems-core][entit
 #> Sending a regular query to EMS ...Done.
 print(head(fleet_03_flights))
 #> # A tibble: 6 × 6
-#>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
-#>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
-#> 1 3193189       Fleet 03 A320-200 36072 ft                       24.257… 17.929…
-#> 2 3208826       Fleet 03 A320-200 38036 ft                       26.015… 15.117…
-#> 3 3208827       Fleet 03 A320-200 35064 ft                       27.773… 16.523…
-#> 4 3211863       Fleet 03 A320-200 34052 ft                       25.312… 17.578…
-#> 5 3211868       Fleet 03 A320-200 35044 ft                       28.476… 17.226…
-#> 6 3215612       Fleet 03 A320-200 33056 ft                       27.421… 17.929…
-#> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
-#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
-#> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees
+#>   flight_record fleet    airframe p35_maximum_pressure_…¹ p35_bank_angle_magni…²
+#>   <chr>         <chr>    <chr>    <chr>                   <chr>                 
+#> 1 3193189       Fleet 03 A320-200 36072 ft                24.2576 degrees       
+#> 2 3203702       Fleet 03 A320-200 34048 ft                25.3123 degrees       
+#> 3 3208826       Fleet 03 A320-200 38036 ft                26.0154 degrees       
+#> 4 3208827       Fleet 03 A320-200 35064 ft                27.7732 degrees       
+#> 5 3211863       Fleet 03 A320-200 34052 ft                25.3123 degrees       
+#> 6 3211868       Fleet 03 A320-200 35044 ft                28.4764 degrees       
+#> # ℹ abbreviated names: ¹​p35_maximum_pressure_altitude_ft,
+#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees
+#> # ℹ 1 more variable: p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```
 
 And some helpers for specific dimensions
@@ -460,17 +496,17 @@ flights_737 <- database_query_from_list( data_source_id = "[ems-core][entity-typ
 #> Sending a regular query to EMS ...Done.
 print(head(flights_737))
 #> # A tibble: 6 × 6
-#>   flight_record fleet    airframe p35_maximum_pressure_altitud…¹ p35_b…² p35_p…³
-#>   <chr>         <chr>    <chr>    <chr>                          <chr>   <chr>  
-#> 1 3151305       Fleet 19 737-800  35026 ft                       27.949… 16.699…
-#> 2 3151307       Fleet 19 737-800  37020 ft                       30.410… 17.050…
-#> 3 3151328       Fleet 19 737-800  35018 ft                       27.070… 18.281…
-#> 4 3151330       Fleet 19 737-800  36015 ft                       34.277… 18.105…
-#> 5 3151331       Fleet 19 737-800  38001 ft                       27.773… 15.996…
-#> 6 3151338       Fleet 19 737-800  33008 ft                       32.343… 15.293…
-#> # … with abbreviated variable names ¹​p35_maximum_pressure_altitude_ft,
-#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees,
-#> #   ³​p35_pitch_attitude_maximum_while_airborne_degrees
+#>   flight_record fleet    airframe p35_maximum_pressure_…¹ p35_bank_angle_magni…²
+#>   <chr>         <chr>    <chr>    <chr>                   <chr>                 
+#> 1 3137698       Fleet 19 737-800  35968 ft                30.4102 degrees       
+#> 2 3137733       Fleet 19 737-800  30018 ft                29.8828 degrees       
+#> 3 3137877       Fleet 19 737-800  37015 ft                31.1133 degrees       
+#> 4 3137878       Fleet 19 737-800  33970 ft                25.6641 degrees       
+#> 5 3137881       Fleet 19 737-800  36018 ft                33.9258 degrees       
+#> 6 3137884       Fleet 19 737-800  37013 ft                25.6641 degrees       
+#> # ℹ abbreviated names: ¹​p35_maximum_pressure_altitude_ft,
+#> #   ²​p35_bank_angle_magnitude_maximum_while_airborne_degrees
+#> # ℹ 1 more variable: p35_pitch_attitude_maximum_while_airborne_degrees <chr>
 ```
 
 ## Other Potentially Useful Functions
@@ -503,20 +539,19 @@ example_glossary <- apm_profile_glossary( profile_id = example_profile_id, gloss
 #> Querying for the profile glossary
 #> Done.
 #> No encoding supplied: defaulting to UTF-8.
-#> Joining, by = "record_type"
+#> Joining with `by = join_by(record_type)`
 
 example_glossary <- select(example_glossary, name, record_type, item_id, logical_id)
 print(head(example_glossary))
 #> # A tibble: 6 × 4
-#>   name                                                   recor…¹ item_id logic…²
-#>   <chr>                                                  <chr>   <chr>   <chr>  
-#> 1 Beginning of File                                      timepo… 0       383DAB…
-#> 2 End of File                                            timepo… 1       FA806D…
-#> 3 Begin Airborne Interval                                timepo… 2       25D29F…
-#> 4 First Known Phase of Flight                            timepo… 3       AD6689…
-#> 5 Last Valid Data                                        timepo… 4       352256…
-#> 6 Rest of File is more than 80% sync errors and next su… timepo… 5       36507F…
-#> # … with abbreviated variable names ¹​record_type, ²​logical_id
+#>   name                                            record_type item_id logical_id
+#>   <chr>                                           <chr>       <chr>   <chr>     
+#> 1 Beginning of File                               timepoint   0       383DAB63-…
+#> 2 End of File                                     timepoint   1       FA806D6C-…
+#> 3 Begin Airborne Interval                         timepoint   2       25D29FB0-…
+#> 4 First Known Phase of Flight                     timepoint   3       AD668953-…
+#> 5 Last Valid Data                                 timepoint   4       3522561F-…
+#> 6 Rest of File is more than 80% sync errors and … timepoint   5       36507F42-…
 ```
 
 You can also get a list of the events in a profile
@@ -551,15 +586,34 @@ airframe_summary <- standard_airframe_query()
 
 print( head( airframe_summary ) )
 #> # A tibble: 6 × 5
-#>   max_flight_record max_flight_date airframe_engine_type    count_flig…¹ airfr…²
-#>   <chr>             <chr>           <chr>                          <int> <chr>  
-#> 1 5670603           Mar 2015        CRJ100/200 CF34-1/3              373 CRJ100…
-#> 2 5439176           Dec 2015        767-400ER CF6-80                4764 767-40…
-#> 3 5498858           Dec 2015        737-800 CFM56-7                10276 737-800
-#> 4 5499576           Dec 2015        757-200 PW2000                  7726 757-200
-#> 5 5575245           Dec 2015        777-200ER Trent 800             1069 777-20…
-#> 6 5427509           Dec 2015        777-200LR GE90-110/115B         1631 777-20…
-#> # … with abbreviated variable names ¹​count_flight_record, ²​airframe
+#>   max_flight_record max_flight_date airframe_engine_type    count_flight_record
+#>   <chr>             <chr>           <chr>                                 <int>
+#> 1 5670603           Mar 2015        CRJ100/200 CF34-1/3                     373
+#> 2 5439176           Dec 2015        767-400ER CF6-80                       4764
+#> 3 5498858           Dec 2015        737-800 CFM56-7                       10276
+#> 4 5499576           Dec 2015        757-200 PW2000                         7726
+#> 5 5575245           Dec 2015        777-200ER Trent 800                    1069
+#> 6 5427509           Dec 2015        777-200LR GE90-110/115B                1631
+#> # ℹ 1 more variable: airframe <chr>
+```
+
+A built-in query for a summary of the fleets on the system
+
+``` r
+
+fleet_summary <- standard_fleet_query()
+#> Sending a regular query to EMS ...Done.
+
+print( head( fleet_summary ) )
+#> # A tibble: 6 × 4
+#>   max_flight_record fleet    count_flights max_flight_month
+#>   <chr>             <chr>            <int> <chr>           
+#> 1 5439176           Fleet 23          4764 Dec 2015        
+#> 2 5265936           Fleet 29            12 Nov 2015        
+#> 3 4830154           Fleet 15           593 Apr 2015        
+#> 4 5417487           Fleet 03           790 Dec 2015        
+#> 5 5427509           Fleet 26          1631 Dec 2015        
+#> 6 5499576           Fleet 21          1775 Dec 2015
 ```
 
 ### Misc
@@ -620,13 +674,12 @@ all_logical_items <- get_logical_FDW_item_list()
 
 print( head( select( all_logical_items, name, description, item_type ) ) )
 #> # A tibble: 6 × 3
-#>   name                        description                                item_…¹
-#>   <chr>                       <chr>                                      <chr>  
-#> 1 FWC- Rud Trav Lim           ""                                         logica…
-#> 2 GMT (hrs)                   "Greenwich Mean Time (i.e. the time at th… logica…
-#> 3 Subframe Identifier         ""                                         logica…
-#> 4 Sync Error (error if > 0.5) "A synchronization error (a disruption of… logica…
-#> 5 APU Command On (1=On)       "The flight-deck switch for activating th… logica…
-#> 6 APU EGT (deg C)             "Exhaust Gas Temperature (EGT) of the Aux… logica…
-#> # … with abbreviated variable name ¹​item_type
+#>   name                        description                              item_type
+#>   <chr>                       <chr>                                    <chr>    
+#> 1 FWC- Rud Trav Lim           ""                                       logical_…
+#> 2 GMT (hrs)                   "Greenwich Mean Time (i.e. the time at … logical_…
+#> 3 Subframe Identifier         ""                                       logical_…
+#> 4 Sync Error (error if > 0.5) "A synchronization error (a disruption … logical_…
+#> 5 APU Command On (1=On)       "The flight-deck switch for activating … logical_…
+#> 6 APU EGT (deg C)             "Exhaust Gas Temperature (EGT) of the A… logical_…
 ```

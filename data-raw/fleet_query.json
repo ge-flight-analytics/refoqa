@@ -1,0 +1,90 @@
+{
+  "select": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "max",
+      "alias": "flight_record"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]",
+      "aggregate": "none",
+      "alias": "fleet"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.uid]]]",
+      "aggregate": "count",
+      "alias": "flights"
+    },
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.masked-date]]]",
+      "aggregate": "max",
+      "alias": "flight_month"
+    }
+  ],
+  "groupBy": [
+    {
+      "fieldId": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]"
+    }
+  ],
+  "orderBy": [],
+  "distinct": true,
+  "top": 10000,
+  "format": "display",
+  "filter": {
+    "operator": "and",
+    "args": [
+      {
+        "type": "filter",
+        "value": {
+          "operator": "isTrue",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.exist-file]]]"
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "isTrue",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.exist-takeoff]]]"
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "isTrue",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.exist-landing]]]"
+            }
+          ]
+        }
+      },
+      {
+        "type": "filter",
+        "value": {
+          "operator": "notEqual",
+          "args": [
+            {
+              "type": "field",
+              "value": "[-hub-][field][[[ems-core][entity-type][foqa-flights]][[ems-core][base-field][flight.fleet]]]"
+            },
+            {
+              "type": "constant",
+              "value": 0
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
