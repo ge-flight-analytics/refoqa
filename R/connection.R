@@ -123,5 +123,10 @@ request_from_ems_api <-
       stop(sprintf("%s: Unsupported request type.", rtype))
     }
 
+    status_code <- httr::status_code( response )
+    if( status_code != 200){
+      print( sprintf("Http status code %s: %s", httr::status_code(response), httr::content(response)) )
+    }
+
     return( response )
   }

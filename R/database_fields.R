@@ -27,6 +27,12 @@ field_groups_query <- function( field_group_id,
                             body = list(groupId = field_group_id)
                             )
 
+  status_code <- httr::status_code( r )
+  if( status_code != 200){
+    print( paste0( "Non-200 Status Code Querying ", field_group_id) )
+    print( status_code )
+  }
+
   field_group_details <- httr::content(r)
 
   return( field_group_details )
