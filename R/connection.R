@@ -40,11 +40,11 @@ trusted_connect_to_efoqa <-
            trusted_auth_value = Sys.getenv("EFOQATRUSTEDAUTHVALUE"),
            efoqa_server_url = Sys.getenv("EFOQASERVER"))
   {
-    body <- list(grant_type = "trusted",
-                 client_id = efoqa_client_id,
+    body <- list(grant_type    = "trusted",
+                 client_id     = efoqa_client_id,
                  client_secret = efoqa_client_secret,
-                 name   = trusted_auth_name,
-                 value   = trusted_auth_value)
+                 name          = trusted_auth_name,
+                 value         = trusted_auth_value)
 
     connection <- create_efoqa_connection(body)
     return(connection, efoqa_server_url)
