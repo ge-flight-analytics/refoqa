@@ -15,56 +15,38 @@ connect_to_efoqa <-
            efoqa_password =  Sys.getenv("EFOQAPASSWORD"),
            efoqa_server_url = Sys.getenv("EFOQASERVER"))
   {
-    # Prevent from the Peer certificate error ("Error in curl::curl_fetch_memory(url, handle = handle) :
-    # Peer certificate cannot be authenticated with given CA certificates")
-    httr::set_config(httr::config(ssl_verifypeer = 0))
-
-    header <- c("Content-Type" = "application/x-www-form-urlencoded",
-                "User-Agent" = user_agent)
     body <- list(grant_type = "password",
                  username   = efoqa_user,
                  password   = efoqa_password)
 
-    token_uri = paste0(efoqa_server_url, uris$sys$auth)
+    connection <- create_efoqa_connection(body, efoqa_server_url)
+    return(connection)
+  }
 
-    response <- httr::POST(
-      token_uri,
-      httr::add_headers(.headers = header),
-      body = body,
-      encode = "form"
-    )
+#' Connect to EMS and get the Auth token using Trusted Authentication.
+#'
+#' @param efoqa_client_id String, eFOQA client ID to use for trusted authentication
+#' @param efoqa_client_secret String, eFOQA client secret to use for trusted authentication
+#' @param efoqa_trusted_auth_name String, eFOQA property to search for as part of trusted authentication
+#' @param efoqa_trusted_auth_value String, value of the eFOQA property to use for trusted authentication
+#' @param efoqa_server_url String, eFOQA server
+#' @return a Connection object.
 
+#' @export
+trusted_connect_to_efoqa <-
+  function(efoqa_client_id = Sys.getenv("EFOQACLIENTID"),
+           efoqa_client_secret =  Sys.getenv("EFOQACLIENTSECRET"),
+           trusted_auth_name = Sys.getenv("EFOQATRUSTEDAUTHNAME"),
+           trusted_auth_value = Sys.getenv("EFOQATRUSTEDAUTHVALUE"),
+           efoqa_server_url = Sys.getenv("EFOQASERVER"))
+  {
+    body <- list(grant_type    = "trusted",
+                 client_id     = efoqa_client_id,
+                 client_secret = efoqa_client_secret,
+                 name          = trusted_auth_name,
+                 value         = trusted_auth_value)
 
-    if (!is.null(httr::content(response)$message)) {
-      print(paste("Message:", httr::content(response)$message))
-    }
-
-    if (httr::http_error(response)) {
-      stop(paste("Error:", httr::content(response)$error_description))
-    }
-
-    connection <- list(
-      uri_root = efoqa_server_url,
-      token = httr::content(response)$access_token,
-      token_type = httr::content(response)$token_type,
-      system_id = 1
-    )
-
-    #query to get the actual server id
-    system_response <- request_from_ems_api(
-      conn = connection,
-      rtype = "GET",
-      uri_keys = c('ems_sys', 'list'))
-
-    system_list <- httr::content(system_response)
-
-    if(length(system_list) == 0){
-      cat("No systems are available to this user.  ems-systems route is returning empty")
-    }else{
-      target_system_id <- system_list[[1]]$id
-      connection$system_id <- target_system_id
-    }
-
+    connection <- create_efoqa_connection(body, efoqa_server_url)
     return(connection)
   }
 
@@ -129,4 +111,57 @@ request_from_ems_api <-
     }
 
     return( response )
+  }
+
+create_efoqa_connection <-
+  function(body, efoqa_server_url)
+  {
+    # Prevent from the Peer certificate error ("Error in curl::curl_fetch_memory(url, handle = handle) :
+    # Peer certificate cannot be authenticated with given CA certificates")
+    httr::set_config(httr::config(ssl_verifypeer = 0))
+
+    header <- c("Content-Type" = "application/x-www-form-urlencoded",
+                "User-Agent" = user_agent)
+
+    token_uri = paste0(efoqa_server_url, uris$sys$auth)
+
+    response <- httr::POST(
+      token_uri,
+      httr::add_headers(.headers = header),
+      body = body,
+      encode = "form"
+    )
+
+
+    if (!is.null(httr::content(response)$message)) {
+      print(paste("Message:", httr::content(response)$message))
+    }
+
+    if (httr::http_error(response)) {
+      stop(paste("Error:", httr::content(response)$error_description))
+    }
+
+    connection <- list(
+      uri_root = efoqa_server_url,
+      token = httr::content(response)$access_token,
+      token_type = httr::content(response)$token_type,
+      system_id = 1
+    )
+
+    #query to get the actual server id
+    system_response <- request_from_ems_api(
+      conn = connection,
+      rtype = "GET",
+      uri_keys = c('ems_sys', 'list'))
+
+    system_list <- httr::content(system_response)
+
+    if(length(system_list) == 0){
+      cat("No systems are available to this user.  ems-systems route is returning empty")
+    }else{
+      target_system_id <- system_list[[1]]$id
+      connection$system_id <- target_system_id
+    }
+
+    return(connection)
   }
