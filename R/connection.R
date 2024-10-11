@@ -20,7 +20,7 @@ connect_to_efoqa <-
                  password   = efoqa_password)
 
     connection <- create_efoqa_connection(body)
-    return(connection)
+    return(connection, efoqa_server_url)
   }
 
 #' Connect to EMS and get the Auth token using Trusted Authentication.
@@ -47,7 +47,7 @@ trusted_connect_to_efoqa <-
                  value   = trusted_auth_value)
 
     connection <- create_efoqa_connection(body)
-    return(connection)
+    return(connection, efoqa_server_url)
   }
 
 request_from_ems_api <-
