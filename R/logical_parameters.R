@@ -2,6 +2,9 @@
 remove_metadata <- function( analytic_result ){
 
   analytic_result['metadata'] <- NULL
+  analytic_result['displayPath'] <- NULL
+
+  analytic_result['path'] <- analytic_result$path[[length(analytic_result$path)]]
 
   return(analytic_result)
 }
