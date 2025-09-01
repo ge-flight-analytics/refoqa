@@ -27,8 +27,8 @@ connect_to_efoqa <-
 #'
 #' @param efoqa_client_id String, eFOQA client ID to use for trusted authentication
 #' @param efoqa_client_secret String, eFOQA client secret to use for trusted authentication
-#' @param efoqa_trusted_auth_name String, eFOQA property to search for as part of trusted authentication
-#' @param efoqa_trusted_auth_value String, value of the eFOQA property to use for trusted authentication
+#' @param trusted_auth_name String, eFOQA property to search for as part of trusted authentication
+#' @param trusted_auth_value String, value of the eFOQA property to use for trusted authentication
 #' @param efoqa_server_url String, eFOQA server
 #' @return a Connection object.
 

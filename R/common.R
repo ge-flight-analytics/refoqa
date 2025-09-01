@@ -42,6 +42,10 @@ uris <- list(
     list = '/v2/ems-systems/%s/assets/flight-phases', 		#(ems-system_id)
     info = '/v2/ems-systems/%s/assets/flight-phases/%s' 	#(ems-system_id, flt_phase_id)
   ),
+  odw_fragments = list(
+    raw = "/v2/ems-systems/%s/odw/fragments/%s/raw",
+    file = "/v2/ems-systems/%s/odw/fragments/%s/file"
+  ),
   profile = list(
     profile_groups = '/v2/ems-systems/%s/profile-groups',
     profiles = '/v2/ems-systems/%s/profiles',

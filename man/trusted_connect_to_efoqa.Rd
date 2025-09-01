@@ -17,11 +17,11 @@ trusted_connect_to_efoqa(
 
 \item{efoqa_client_secret}{String, eFOQA client secret to use for trusted authentication}
 
+\item{trusted_auth_name}{String, eFOQA property to search for as part of trusted authentication}
+
+\item{trusted_auth_value}{String, value of the eFOQA property to use for trusted authentication}
+
 \item{efoqa_server_url}{String, eFOQA server}
-
-\item{efoqa_trusted_auth_name}{String, eFOQA property to search for as part of trusted authentication}
-
-\item{efoqa_trusted_auth_value}{String, value of the eFOQA property to use for trusted authentication}
 }
 \value{
 a Connection object.
